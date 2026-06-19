@@ -10,7 +10,7 @@ export default function Dealers() {
   const [pincode, setPincode] = useState("");
   const [searchPincode, setSearchPincode] = useState<string | null>(null);
   
-  const { data: introText } = useGetContent("dealer_intro");
+  const { data: introText } = useGetContent("dealers_intro");
   
   // Only query when searchPincode is set
   const { data: dealers, isLoading, isError } = useLocateDealers(

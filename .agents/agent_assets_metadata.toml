@@ -36,3 +36,9 @@ id = "nuNxcy7F5qjZiPngzm0Zh"
 uri = "file://artifacts/sardar-bio/public/images/product-6.png"
 type = "image"
 title = "Premium agricultural product"
+
+[[generated]]
+id = "YdsJiGiifkVDeNC_WF7Ee"
+uri = "file://attached_assets/generated_images/aerial_wide_angle_view_47e3.png"
+type = "image"
+title = "generated_image"
