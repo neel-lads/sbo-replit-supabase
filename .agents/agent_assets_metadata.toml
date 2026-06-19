@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "ZaKQkoVG8WVu78QBmm4lm"
+uri = "file://artifacts/sardar-bio/public/images/product-1.png"
+type = "image"
+title = "Bio pesticide liquid bottle"
+
+[[generated]]
+id = "NavdljRTTkpk6vF-Jz4qb"
+uri = "file://artifacts/sardar-bio/public/images/product-2.png"
+type = "image"
+title = "Organic fertilizer granules"
+
+[[generated]]
+id = "AbhVnvxIrdQnM3VRT4XLA"
+uri = "file://artifacts/sardar-bio/public/images/product-3.png"
+type = "image"
+title = "Fungicide powder with leaf"
+
+[[generated]]
+id = "NOTFTHtUI5ip7xeKQlN_Y"
+uri = "file://artifacts/sardar-bio/public/images/product-4.png"
+type = "image"
+title = "Insecticide spray bottle"
+
+[[generated]]
+id = "6s1D8RvypYhZQYtxCQsRH"
+uri = "file://artifacts/sardar-bio/public/images/product-5.png"
+type = "image"
+title = "Bio organic liquid bottle"
+
+[[generated]]
+id = "nuNxcy7F5qjZiPngzm0Zh"
+uri = "file://artifacts/sardar-bio/public/images/product-6.png"
+type = "image"
+title = "Premium agricultural product"

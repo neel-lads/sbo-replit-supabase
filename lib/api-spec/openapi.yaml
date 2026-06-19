@@ -1,22 +1,30 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Sardar Bio Organic API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: products
+    description: Product management
+  - name: dealers
+    description: Dealer management
+  - name: content
+    description: CMS content management
+  - name: submissions
+    description: Form submissions
+  - name: admin
+    description: Admin operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +32,768 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── Products ──────────────────────────────────────────────
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List all products
+      parameters:
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+          required: false
+        - name: form
+          in: query
+          schema:
+            type: string
+          required: false
+        - name: category
+          in: query
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      operationId: createProduct
+      tags: [products]
+      summary: Create a product (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a product by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Not found
+    put:
+      operationId: updateProduct
+      tags: [products]
+      summary: Update a product (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    delete:
+      operationId: deleteProduct
+      tags: [products]
+      summary: Delete a product (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResult"
+
+  /products/stats/summary:
+    get:
+      operationId: getProductStats
+      tags: [products]
+      summary: Product stats (admin dashboard)
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductStats"
+
+  # ── Dealers ───────────────────────────────────────────────
+  /dealers:
+    get:
+      operationId: listDealers
+      tags: [dealers]
+      summary: List all dealers
+      responses:
+        "200":
+          description: List of dealers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dealer"
+    post:
+      operationId: createDealer
+      tags: [dealers]
+      summary: Create a dealer (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DealerInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dealer"
+
+  /dealers/{id}:
+    put:
+      operationId: updateDealer
+      tags: [dealers]
+      summary: Update a dealer (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DealerInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dealer"
+    delete:
+      operationId: deleteDealer
+      tags: [dealers]
+      summary: Delete a dealer (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResult"
+
+  /dealers/locate:
+    get:
+      operationId: locateDealers
+      tags: [dealers]
+      summary: Find nearest dealers by pincode
+      parameters:
+        - name: pincode
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Nearest dealers with distance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DealerWithDistance"
+
+  # ── Content ───────────────────────────────────────────────
+  /content:
+    get:
+      operationId: listContent
+      tags: [content]
+      summary: List all content blocks
+      responses:
+        "200":
+          description: Content blocks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContentBlock"
+
+  /content/{key}:
+    get:
+      operationId: getContent
+      tags: [content]
+      summary: Get content block by key
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Content block
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentBlock"
+    put:
+      operationId: upsertContent
+      tags: [content]
+      summary: Create or update content block (admin)
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContentInput"
+      responses:
+        "200":
+          description: Upserted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentBlock"
+
+  # ── Form Submissions ──────────────────────────────────────
+  /submissions/contact:
+    get:
+      operationId: listContactSubmissions
+      tags: [submissions]
+      summary: List contact form submissions (admin)
+      responses:
+        "200":
+          description: Submissions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContactSubmission"
+    post:
+      operationId: createContactSubmission
+      tags: [submissions]
+      summary: Submit contact form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Submission recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactSubmission"
+
+  /submissions/dealership:
+    get:
+      operationId: listDealershipSubmissions
+      tags: [submissions]
+      summary: List dealership enquiry submissions (admin)
+      responses:
+        "200":
+          description: Submissions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DealershipSubmission"
+    post:
+      operationId: createDealershipSubmission
+      tags: [submissions]
+      summary: Submit dealership enquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DealershipInput"
+      responses:
+        "201":
+          description: Submission recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DealershipSubmission"
+
+  /submissions/stats:
+    get:
+      operationId: getSubmissionStats
+      tags: [submissions]
+      summary: Submission counts (admin dashboard)
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmissionStats"
+
+  # ── Admin Auth ────────────────────────────────────────────
+  /admin/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginInput"
+      responses:
+        "200":
+          description: Session token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSession"
+        "401":
+          description: Invalid credentials
+
+  /admin/logout:
+    post:
+      operationId: adminLogout
+      tags: [admin]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResult"
+
+  /admin/me:
+    get:
+      operationId: adminMe
+      tags: [admin]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Admin user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Not authenticated
+
+  /admin/upload-url:
+    post:
+      operationId: getUploadUrl
+      tags: [admin]
+      summary: Get a signed upload URL for Supabase Storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlInput"
+      responses:
+        "200":
+          description: Signed URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadUrlResult"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    # ── Product ──────────────────────────────────────────────
+    Product:
+      type: object
+      required: [id, name, description, category, form, featured, images, created_at]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: ["string", "null"]
+        benefits:
+          type: ["string", "null"]
+        application_method:
+          type: ["string", "null"]
+        things_to_know:
+          type: ["string", "null"]
+        available_packaging:
+          type: ["string", "null"]
+        category:
+          type: string
+        form:
+          type: string
+        featured:
+          type: boolean
+        images:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+
+    ProductInput:
+      type: object
+      required: [name, description, category, form]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+        benefits:
+          type: string
+        application_method:
+          type: string
+        things_to_know:
+          type: string
+        available_packaging:
+          type: string
+        category:
+          type: string
+        form:
+          type: string
+        featured:
+          type: boolean
+        images:
+          type: array
+          items:
+            type: string
+
+    ProductStats:
+      type: object
+      required: [total, featured, by_category, by_form]
+      properties:
+        total:
+          type: integer
+        featured:
+          type: integer
+        by_category:
+          type: array
+          items:
+            $ref: "#/components/schemas/CountEntry"
+        by_form:
+          type: array
+          items:
+            $ref: "#/components/schemas/CountEntry"
+
+    # ── Dealer ───────────────────────────────────────────────
+    Dealer:
+      type: object
+      required: [id, firm_name, contact, address, pincode, lat, lng, created_at]
+      properties:
+        id:
+          type: integer
+        firm_name:
+          type: string
+        contact:
+          type: string
+        address:
+          type: string
+        email:
+          type: ["string", "null"]
+        pincode:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        map_link:
+          type: ["string", "null"]
+        created_at:
+          type: string
+
+    DealerInput:
+      type: object
+      required: [firm_name, contact, address, pincode, lat, lng]
+      properties:
+        firm_name:
+          type: string
+        contact:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+        pincode:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        map_link:
+          type: string
+
+    DealerWithDistance:
+      type: object
+      required: [id, firm_name, contact, address, pincode, lat, lng, distance_km, created_at]
+      properties:
+        id:
+          type: integer
+        firm_name:
+          type: string
+        contact:
+          type: string
+        address:
+          type: string
+        email:
+          type: ["string", "null"]
+        pincode:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        map_link:
+          type: ["string", "null"]
+        distance_km:
+          type: number
+        created_at:
+          type: string
+
+    # ── Content ──────────────────────────────────────────────
+    ContentBlock:
+      type: object
+      required: [id, key, value, updated_at]
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+        updated_at:
+          type: string
+
+    ContentInput:
+      type: object
+      required: [value]
+      properties:
+        value:
+          type: string
+
+    # ── Contact Submission ────────────────────────────────────
+    ContactSubmission:
+      type: object
+      required: [id, name, email, phone, subject, message, created_at]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+
+    ContactInput:
+      type: object
+      required: [name, email, phone, subject, message]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+
+    DealershipSubmission:
+      type: object
+      required: [id, name, firm_name, email, phone, gst_number, area_pincode, subject, message, created_at]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        firm_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        gst_number:
+          type: string
+        area_pincode:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+
+    DealershipInput:
+      type: object
+      required: [name, firm_name, email, phone, gst_number, area_pincode, subject, message]
+      properties:
+        name:
+          type: string
+        firm_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        gst_number:
+          type: string
+        area_pincode:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+
+    SubmissionStats:
+      type: object
+      required: [contact_total, dealership_total, recent_contact, recent_dealership]
+      properties:
+        contact_total:
+          type: integer
+        dealership_total:
+          type: integer
+        recent_contact:
+          type: integer
+        recent_dealership:
+          type: integer
+
+    # ── Admin ────────────────────────────────────────────────
+    AdminLoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AdminSession:
+      type: object
+      required: [access_token, user]
+      properties:
+        access_token:
+          type: string
+        user:
+          $ref: "#/components/schemas/AdminUser"
+
+    AdminUser:
+      type: object
+      required: [id, email]
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+
+    UploadUrlInput:
+      type: object
+      required: [filename, content_type]
+      properties:
+        filename:
+          type: string
+        content_type:
+          type: string
+
+    UploadUrlResult:
+      type: object
+      required: [upload_url, public_url]
+      properties:
+        upload_url:
+          type: string
+        public_url:
+          type: string
+
+    # ── Shared ───────────────────────────────────────────────
+    DeleteResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+
+    CountEntry:
+      type: object
+      required: [label, count]
+      properties:
+        label:
+          type: string
+        count:
+          type: integer
