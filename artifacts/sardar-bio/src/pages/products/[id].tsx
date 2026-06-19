@@ -1,5 +1,6 @@
 import { useGetProduct, getGetProductQueryKey } from "@workspace/api-client-react";
 import { useParams, Link } from "wouter";
+import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useState } from "react";
@@ -43,12 +44,19 @@ export default function ProductDetail() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       
-      {/* Breadcrumbs */}
+      {/* Back + Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100 py-4">
-        <div className="container mx-auto px-4 flex text-xs font-medium uppercase tracking-widest text-gray-400">
-          <Link href="/products" className="hover:text-gray-900 transition-colors">Products</Link>
-          <span className="mx-3">/</span>
-          <span className="text-gray-900">{product.name}</span>
+        <div className="container mx-auto px-4 flex items-center gap-6 text-xs font-medium uppercase tracking-widest text-gray-400">
+          <Link
+            href="/products"
+            data-testid="link-back-products"
+            className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors group"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>All Products</span>
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900 truncate max-w-xs">{product.name}</span>
         </div>
       </div>
 
