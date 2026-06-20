@@ -49,35 +49,34 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* LIGHT MODE ONLY AS REQUESTED */
 :root {
   --background: 0 0% 100%;
-  --foreground: 0 0% 0%;
+  --foreground: 0 0% 8%;
 
   --border: 0 0% 90%;
   --input: 0 0% 90%;
-  --ring: 133 100% 85%;
+  --ring: 133 100% 39%;
 
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 0%;
-  --card-border: 0 0% 90%;
+  --card-foreground: 0 0% 8%;
+  --card-border: 0 0% 92%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 0%;
+  --popover-foreground: 0 0% 8%;
   --popover-border: 0 0% 90%;
 
-  /* Accent is #b5ffc5 -> HSL 133 100% 85% */
-  --primary: 133 100% 85%;
-  --primary-foreground: 0 0% 0%;
+  /* Accent is #00C62C -> HSL 133 100% 39% */
+  --primary: 133 100% 39%;
+  --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 0%;
+  --secondary-foreground: 0 0% 8%;
 
   --muted: 0 0% 96%;
   --muted-foreground: 0 0% 45%;
 
-  --accent: 133 100% 85%;
-  --accent-foreground: 0 0% 0%;
+  --accent: 133 100% 39%;
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
@@ -85,8 +84,8 @@
   --app-font-sans: 'Inter', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
-  
-  --radius: 0rem; /* sharp corners for minimal premium feel */
+
+  --radius: 0.75rem;
 }
 
 @layer base {

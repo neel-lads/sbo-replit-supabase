@@ -13,10 +13,10 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-serif text-xl font-bold tracking-tight">
-          SARDAR BIO
+    <nav className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="font-serif text-xl font-bold tracking-tight text-gray-900">
+          Sardar Bio
         </Link>
 
         {/* Desktop */}
@@ -25,17 +25,21 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm tracking-wide hover:text-primary transition-colors ${location === link.href ? "text-primary font-medium" : "text-gray-600"}`}
+              className={`text-sm font-medium tracking-wide transition-colors ${
+                location === link.href
+                  ? "text-[#00C62C] font-semibold"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
             >
               {link.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className={`text-sm tracking-wider font-semibold uppercase px-6 py-2 rounded-none border transition-colors ${
+            className={`text-sm font-semibold px-5 py-2 rounded-full transition-all ${
               location === "/contact"
-                ? "bg-primary text-black border-primary"
-                : "bg-transparent text-gray-800 border-gray-800 hover:bg-primary hover:border-primary"
+                ? "bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white shadow-md shadow-green-200"
+                : "bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white hover:opacity-90 shadow-sm hover:shadow-md hover:shadow-green-200"
             }`}
           >
             Contact
@@ -43,19 +47,21 @@ export function Navbar() {
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-4">
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-100 p-5 flex flex-col gap-3 shadow-xl animate-in slide-in-from-top-4">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-lg font-medium p-2"
+              className={`text-base font-medium px-3 py-2 rounded-xl transition-colors ${
+                location === link.href ? "bg-green-50 text-[#00C62C]" : "hover:bg-gray-50 text-gray-700"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {link.label}
@@ -63,10 +69,10 @@ export function Navbar() {
           ))}
           <Link
             href="/contact"
-            className="text-base font-semibold uppercase tracking-wider px-4 py-3 border border-gray-800 text-center hover:bg-primary hover:border-primary transition-colors"
+            className="text-sm font-semibold text-center py-3 rounded-full bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white mt-1"
             onClick={() => setIsOpen(false)}
           >
-            Contact
+            Contact Us
           </Link>
         </div>
       )}
