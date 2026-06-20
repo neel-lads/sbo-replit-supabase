@@ -62,7 +62,7 @@ export default function Dealers() {
       {/* Header + search */}
       <div
         className="py-24 overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}
+        style={{ background: "linear-gradient(135deg, #383084 0%, #009FE2 100%)" }}
       >
         <div
           className="absolute inset-0 opacity-10 pointer-events-none"

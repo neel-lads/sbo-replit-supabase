@@ -2,7 +2,7 @@ import { Link } from "wouter";
 
 export function Footer() {
   return (
-    <footer className="pt-16 pb-8 mt-24" style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}>
+    <footer className="pt-16 pb-8 mt-24" style={{ background: "linear-gradient(135deg, #383084 0%, #009FE2 100%)" }}>
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="md:col-span-2">
           <Link href="/" className="font-serif text-2xl font-bold tracking-tight mb-4 inline-block text-white">
