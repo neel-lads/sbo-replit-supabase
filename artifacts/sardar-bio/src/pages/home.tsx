@@ -282,9 +282,9 @@ export default function Home() {
       </section>
 
       {/* ── Founders Note ── */}
-      <section className="py-28 text-white overflow-hidden relative" style={{ background: "linear-gradient(135deg, #383084 0%, #009FE2 100%)" }}>
-        <div className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "40px 40px" }}
+      <section className="py-28 overflow-hidden relative" style={{ background: "#D4FFDD" }}>
+        <div className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #00C62C 1px, transparent 0)", backgroundSize: "40px 40px" }}
         />
         <FadeUp className="max-w-7xl mx-auto px-6 max-w-4xl text-center relative z-10">
           <div className="w-12 h-12 rounded-full bg-[#00C62C]/25 border border-[#00C62C]/50 flex items-center justify-center mx-auto mb-8">
@@ -292,18 +292,18 @@ export default function Home() {
               <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
             </svg>
           </div>
-          <blockquote className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 font-medium text-white/90">
+          <blockquote className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 font-medium text-gray-800">
             {foundersNote?.value
               ? foundersNote.value.split("\n\n")[0]
               : "Our commitment has always been to the soil and those who tend it. Quality is not just a standard — it is our legacy."}
           </blockquote>
           <div className="flex items-center justify-center gap-3 mx-auto mb-6 w-fit">
-            <div className="w-10 h-px bg-white/30" />
+            <div className="w-10 h-px bg-gray-300" />
             <div className="w-16 h-0.5 rounded-full bg-[#00C62C]" />
-            <div className="w-10 h-px bg-white/30" />
+            <div className="w-10 h-px bg-gray-300" />
           </div>
-          <div className="font-bold uppercase tracking-widest text-sm text-white/90">Amitbhai Ladani &amp; Hasubhai Patel</div>
-          <div className="text-sm mt-2 text-white/40 uppercase tracking-wider">Founders, Sardar Bio Organic</div>
+          <div className="font-bold uppercase tracking-widest text-sm text-gray-900">Amitbhai Ladani &amp; Hasubhai Patel</div>
+          <div className="text-sm mt-2 text-gray-500 uppercase tracking-wider">Founders, Sardar Bio Organic</div>
         </FadeUp>
       </section>
 

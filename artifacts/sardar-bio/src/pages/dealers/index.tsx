@@ -62,19 +62,19 @@ export default function Dealers() {
       {/* Header + search */}
       <div
         className="py-24 overflow-hidden relative"
-        style={{ background: "linear-gradient(135deg, #383084 0%, #009FE2 100%)" }}
+        style={{ background: "#D4FFDD" }}
       >
         <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "36px 36px" }}
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #00C62C 1px, transparent 0)", backgroundSize: "36px 36px" }}
         />
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
           <FadeUp>
-            <span className="text-[10px] uppercase tracking-widest text-white/70 font-semibold">Our Network</span>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mt-3 mb-5">
+            <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Our Network</span>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mt-3 mb-5">
               Find a Dealer
             </h1>
-            <p className="text-white/75 text-base mb-10 leading-relaxed max-w-xl mx-auto">
+            <p className="text-gray-600 text-base mb-10 leading-relaxed max-w-xl mx-auto">
               {introText?.value?.split("\n\n")[0] ||
                 "Enter your pincode to find the 3 nearest authorised Sardar Bio Organic dealers in your area."}
             </p>
@@ -91,7 +91,7 @@ export default function Dealers() {
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 data-testid="input-pincode"
-                className="h-14 pl-12 pr-36 text-base rounded-2xl border-0 bg-white shadow-xl focus-visible:ring-2 focus-visible:ring-white/50"
+                className="h-14 pl-12 pr-36 text-base rounded-2xl border border-gray-200 bg-white shadow-md focus-visible:ring-2 focus-visible:ring-[#00C62C]/30"
                 required
               />
               <Button
