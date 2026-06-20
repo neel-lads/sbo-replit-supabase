@@ -282,13 +282,13 @@ export default function Home() {
       </section>
 
       {/* ── Founders Note ── */}
-      <section className="py-28 bg-gray-950 text-white overflow-hidden relative">
-        <div className="absolute inset-0 opacity-5 pointer-events-none"
+      <section className="py-28 text-white overflow-hidden relative" style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}>
+        <div className="absolute inset-0 opacity-10 pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "40px 40px" }}
         />
         <FadeUp className="max-w-7xl mx-auto px-6 max-w-4xl text-center relative z-10">
-          <div className="w-12 h-12 rounded-full bg-[#00C62C]/20 flex items-center justify-center mx-auto mb-8">
-            <svg className="w-6 h-6 text-[#00C62C]" fill="currentColor" viewBox="0 0 24 24">
+          <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-8">
+            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
             </svg>
           </div>
@@ -297,8 +297,8 @@ export default function Home() {
               ? foundersNote.value.split("\n\n")[0]
               : "Our commitment has always been to the soil and those who tend it. Quality is not just a standard — it is our legacy."}
           </blockquote>
-          <div className="w-16 h-0.5 rounded-full bg-gradient-to-r from-[#00C62C] to-[#00a325] mx-auto mb-6" />
-          <div className="font-bold uppercase tracking-widest text-sm text-[#00C62C]">Amitbhai Ladani &amp; Hasubhai Patel</div>
+          <div className="w-16 h-0.5 rounded-full bg-white/40 mx-auto mb-6" />
+          <div className="font-bold uppercase tracking-widest text-sm text-white/90">Amitbhai Ladani &amp; Hasubhai Patel</div>
           <div className="text-sm mt-2 text-white/40 uppercase tracking-wider">Founders, Sardar Bio Organic</div>
         </FadeUp>
       </section>

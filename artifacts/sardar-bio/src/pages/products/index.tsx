@@ -19,16 +19,16 @@ export default function Products() {
       <Navbar />
 
       {/* Page header */}
-      <div className="bg-gradient-to-br from-green-50 to-white border-b border-gray-100 py-20 overflow-hidden relative">
+      <div className="py-20 overflow-hidden relative" style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}>
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #00C62C 1px, transparent 0)", backgroundSize: "36px 36px" }}
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "36px 36px" }}
         />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <FadeUp>
-            <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Our Range</span>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-900 mt-3 mb-4">Our Solutions</h1>
-            <p className="text-gray-500 max-w-xl text-lg">
+            <span className="text-[10px] uppercase tracking-widest text-white/70 font-semibold">Our Range</span>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mt-3 mb-4">Our Solutions</h1>
+            <p className="text-white/75 max-w-xl text-lg">
               Premium organic compounds designed for maximum efficacy and minimal environmental impact.
             </p>
           </FadeUp>
