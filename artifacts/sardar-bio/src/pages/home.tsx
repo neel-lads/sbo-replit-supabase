@@ -14,8 +14,8 @@ export default function Home() {
   const { data: foundersNote } = useGetContent("founders_note");
   const { data: featuredProducts, isLoading } = useListProducts({ featured: true }, {
     query: { queryKey: getListProductsQueryKey({ featured: true }) }
-  })
-    useEffect(() => {
+  });
+  useEffect(() => {
     const test = async () => {
       const { data, error } = await supabase.from("products").select("*");
 
@@ -24,7 +24,7 @@ export default function Home() {
     };
 
     test();
-  }, []);;
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
