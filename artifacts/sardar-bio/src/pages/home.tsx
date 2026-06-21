@@ -18,6 +18,13 @@ type product = {
 export default function Home() {
   const [products, setProducts] = useState<product[]>([]);
   const [loading, setLoading] = useState(true);
+  const getImageUrl = (path: string) => {
+    if (!path) return "";
+
+    if (path.startsWith("http")) return path;
+
+    return `https://pfdwgxzhdqtvedwiovtn.supabase.co/storage/v1/object/public/product-images/${path}`;
+  };
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.from("products").select("*");
@@ -223,7 +230,7 @@ export default function Home() {
                       <div className="aspect-[4/3] bg-gray-50 overflow-hidden relative rounded-t-2xl">
                         {product.images?.[0] ? (
                           <img
-                            src={product.images[0]}
+                            src={getImageUrl(product.images?.[0])}
                             alt={product.name}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           />

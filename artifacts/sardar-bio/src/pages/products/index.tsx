@@ -10,6 +10,13 @@ export default function Products() {
   const [form, setForm] = useState<string>("");
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const getImageUrl = (path: string) => {
+    if (!path) return "";
+
+    if (path.startsWith("http")) return path;
+
+    return `https://pfdwgxzhdqtvedwiovtn.supabase.co/storage/v1/object/public/product-images/${path}`;
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       let query = supabase.from("products").select("*");
@@ -109,7 +116,7 @@ export default function Products() {
                     <div className="aspect-square bg-gray-50 overflow-hidden relative rounded-t-2xl">
                       {product.images?.[0] ? (
                         <img
-                          src={product.images[0]}
+                          src={getImageUrl(product.images?.[0])}
                           alt={product.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
