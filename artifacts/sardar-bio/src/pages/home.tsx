@@ -330,3 +330,16 @@ export default function Home() {
     </div>
   );
 }
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+
+useEffect(() => {
+  const test = async () => {
+    const { data, error } = await supabase.from("products").select("*");
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+  };
+
+  test();
+}, []);
