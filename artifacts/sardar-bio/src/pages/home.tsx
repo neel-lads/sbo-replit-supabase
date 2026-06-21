@@ -13,7 +13,7 @@ type product = {
   description?: string;
   category?: string;
   form?: string;
-  images?: string[];
+  image_url?: string;
 };
 export default function Home() {
   const [products, setProducts] = useState<product[]>([]);
@@ -227,15 +227,16 @@ export default function Home() {
                 <StaggerItem key={product.id}>
                   <Link href={`/products/${product.id}`} className="group block h-full">
                     <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
-                      <div className="aspect-[4/3] bg-gray-50 overflow-hidden relative rounded-t-2xl">
-                        {product.images?.[0] ? (
+                      <div className="aspect-[4/3] bg-gray-50 relative rounded-t-2xl flex items-center justify-center overflow-hidden">
+
+                        {product.image_url ? (
                           <img
-                            src={getImageUrl(product.images?.[0])}
+                            src={product.image_url}
                             alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                            className="h-full w-full object-contain p-4"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-300 text-sm bg-gradient-to-br from-gray-50 to-gray-100">
+                          <div className="text-gray-300 text-sm">
                             No Image
                           </div>
                         )}
