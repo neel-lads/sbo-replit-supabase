@@ -121,21 +121,21 @@ export default function ProductDetail() {
             <div className="space-y-10">
               {product.content && (
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 pb-2 border-b border-gray-100">Technical Content</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-4 pb-2 border-b border-gray-100">Technical Content</h3>
                   <div className="text-gray-600 whitespace-pre-line leading-relaxed">{product.content}</div>
                 </div>
               )}
 
               {product.benefits && (
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 pb-2 border-b border-gray-100">Key Benefits</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-4 pb-2 border-b border-gray-100">Key Benefits</h3>
                   <div className="text-gray-600 whitespace-pre-line leading-relaxed">{product.benefits}</div>
                 </div>
               )}
 
               {product.application_method && (
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 pb-2 border-b border-gray-100">Application Method</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-4 pb-2 border-b border-gray-100">Application Method</h3>
                   <div className="text-gray-600 whitespace-pre-line leading-relaxed">{product.application_method}</div>
                 </div>
               )}
@@ -143,7 +143,7 @@ export default function ProductDetail() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {product.packaging && (
                   <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Available Packaging</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-2">Available Packaging</h3>
                     <div className="text-gray-900 font-medium">{product.packaging}</div>
                   </div>
                 )}
