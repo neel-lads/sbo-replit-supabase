@@ -63,7 +63,7 @@ export default function Contact() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      <div className="bg-gradient-to-br from-green-50 to-white border-b border-gray-100 py-16 md:py-24" style={{background: #D4FFDD}}>
+      <div className="bg-gradient-to-br from-green-50 to-white border-b border-gray-100 py-16 md:py-24" style={{background: "#D4FFDD"}}>
         <div className="max-w-7xl mx-auto px-6 text-center">
           <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Reach Us</span>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mt-3 mb-5">Get in Touch</h1>
