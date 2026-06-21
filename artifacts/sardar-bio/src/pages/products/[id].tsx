@@ -87,13 +87,13 @@ export default function ProductDetail() {
       <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 w-full flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
 
-          {/* Images Gallery */}
+          {/* Images Section */}
           <div className="flex flex-col gap-4">
             <div className="bg-gray-50 aspect-square rounded-2xl border border-gray-100 p-8 flex items-center justify-center relative overflow-hidden">
               
-              {product?.images?.length > 0 ? (
+              {product?.image_url ? (
                 <img
-                  src={product.images[activeImage]}
+                  src={product.image_url}
                   alt={product.name || "Product"}
                   className="w-full h-full object-contain mix-blend-multiply"
                 />
@@ -111,28 +111,6 @@ export default function ProductDetail() {
                 </span>
               </div>
             </div>
-
-            {product?.images?.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2">
-                {product.images.map((img: string, idx: number) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImage(idx)}
-                    className={`w-20 h-20 bg-gray-50 rounded-xl border flex-shrink-0 p-2 transition-all ${
-                      activeImage === idx
-                        ? "border-[#00C62C] ring-2 ring-[#00C62C]/20"
-                        : "border-gray-200 hover:border-gray-400"
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`${product?.name || "Product"} ${idx + 1}`}
-                      className="w-full h-full object-contain mix-blend-multiply"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Product Info */}
