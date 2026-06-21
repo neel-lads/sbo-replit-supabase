@@ -141,16 +141,16 @@ export default function ProductDetail() {
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {product.available_packaging && (
+                {product.packaging && (
                   <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
                     <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Available Packaging</h3>
-                    <div className="text-gray-900 font-medium">{product.available_packaging}</div>
+                    <div className="text-gray-900 font-medium">{product.packaging}</div>
                   </div>
                 )}
-                {product.things_to_know && (
+                {product.notes && (
                   <div className="bg-green-50 p-5 rounded-2xl border border-green-100">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-2">Things to Know</h3>
-                    <div className="text-gray-700 font-medium">{product.things_to_know}</div>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-2">Notes</h3>
+                    <div className="text-gray-700 font-medium">{product.notes}</div>
                   </div>
                 )}
               </div>
