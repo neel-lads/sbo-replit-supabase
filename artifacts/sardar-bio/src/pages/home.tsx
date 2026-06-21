@@ -20,7 +20,7 @@ export default function Home() {
       const { data, error } = await supabase.from("products").select("*");
 
       console.log("SUPABASE DATA:", data);
-      console.log("SUPABASE ERROR:", error);
+      console.log("SUPABASE ERROR:", error?.message, error);
     };
 
     test();
