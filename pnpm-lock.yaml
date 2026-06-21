@@ -403,6 +403,10 @@ importers:
         version: 3.25.76
 
   artifacts/sardar-bio:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.108.2
+        version: 2.108.2
     devDependencies:
       '@hookform/resolvers':
         specifier: ^3.10.0
