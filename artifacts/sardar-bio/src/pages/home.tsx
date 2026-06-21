@@ -6,13 +6,25 @@ import { Button } from "@/components/ui/button";
 import { FadeUp, FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/components/ui/animate";
 import { motion } from "framer-motion";
 import heroFarm from "@/assets/hero-farm.png";
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const { data: aboutUs } = useGetContent("about_us");
   const { data: foundersNote } = useGetContent("founders_note");
   const { data: featuredProducts, isLoading } = useListProducts({ featured: true }, {
     query: { queryKey: getListProductsQueryKey({ featured: true }) }
-  });
+  })
+    useEffect(() => {
+    const test = async () => {
+      const { data, error } = await supabase.from("products").select("*");
+
+      console.log("SUPABASE DATA:", data);
+      console.log("SUPABASE ERROR:", error);
+    };
+
+    test();
+  }, []);;
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
