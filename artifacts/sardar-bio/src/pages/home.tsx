@@ -1,4 +1,4 @@
-import { useGetContent, useListProducts, getListProductsQueryKey } from "@workspace/api-client-react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -6,24 +6,30 @@ import { Button } from "@/components/ui/button";
 import { FadeUp, FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/components/ui/animate";
 import { motion } from "framer-motion";
 import heroFarm from "@/assets/hero-farm.png";
-import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-
+type product = {
+  id: number;
+  name: string;
+  description?: string;
+  category?: string;
+  form?: string;
+  images?: string[];
+};
 export default function Home() {
-  const { data: aboutUs } = useGetContent("about_us");
-  const { data: foundersNote } = useGetContent("founders_note");
-  const { data: featuredProducts, isLoading } = useListProducts({ featured: true }, {
-    query: { queryKey: getListProductsQueryKey({ featured: true }) }
-  });
+  const [products, setProducts] = useState<product[]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const test = async () => {
+    const fetchData = async () => {
       const { data, error } = await supabase.from("products").select("*");
 
       console.log("SUPABASE DATA:", data);
-      console.log("SUPABASE ERROR:", error?.message, error);
+      console.log("SUPABASE ERROR:", error);
+
+      if (data) setProducts(data);
+      setLoading(false);
     };
 
-    test();
+    fetchData();
   }, []);
 
   return (
@@ -141,13 +147,9 @@ export default function Home() {
               </FadeUp>
               <FadeUp delay={0.15}>
                 <div className="text-gray-500 leading-relaxed space-y-4">
-                  {aboutUs?.value ? (
-                    aboutUs.value.split("\n\n").slice(0, 2).map((para, i) => (
-                      <p key={i}>{para}</p>
-                    ))
-                  ) : (
-                    <p>Founded by Amitbhai Ladani and Hasubhai Patel, Sardar Bio Organic has stood as a pillar of reliability in the agricultural wholesale sector since 2004.</p>
-                  )}
+                  <p>
+                    Founded by Amitbhai Ladani and Hasubhai Patel, Sardar Bio Organic has stood as a pillar of reliability in the agricultural wholesale sector since 2004.
+                  </p>
                 </div>
               </FadeUp>
               <FadeUp delay={0.25}>
@@ -205,8 +207,8 @@ export default function Home() {
               </Link>
             </FadeIn>
           </div>
-
-          {isLoading ? (
+          
+          {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[1, 2, 3].map(i => (
                 <div key={i} className="h-96 bg-gray-200 animate-pulse rounded-2xl" />
@@ -214,7 +216,7 @@ export default function Home() {
             </div>
           ) : (
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredProducts?.map((product) => (
+              {products?.map((product) => (
                 <StaggerItem key={product.id}>
                   <Link href={`/products/${product.id}`} className="group block h-full">
                     <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
@@ -232,7 +234,7 @@ export default function Home() {
                         )}
                         <div className="absolute top-4 left-4">
                           <span className="bg-white text-[10px] px-3 py-1 uppercase tracking-widest font-bold rounded-full border border-gray-100 shadow-sm">
-                            {product.category.replace("-", " ")}
+                            {product.category ? product.category.replace("-", " ") : "Category"}
                           </span>
                         </div>
                       </div>
@@ -242,10 +244,10 @@ export default function Home() {
                             {product.name}
                           </h3>
                           <span className="bg-gray-900 text-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold flex-shrink-0 rounded-full">
-                            {product.form}
+                            {product.form || "FORM"}
                           </span>
                         </div>
-                        <p className="text-gray-400 text-sm line-clamp-2">{product.description}</p>
+                        <p className="text-gray-400 text-sm line-clamp-2">{product.description || "No description available"}</p>
                         <div className="flex items-center gap-1 mt-5 text-xs font-bold uppercase tracking-widest text-[#00C62C]">
                           <span>View Details</span>
                           <motion.span
@@ -305,9 +307,7 @@ export default function Home() {
             </svg>
           </div>
           <blockquote className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 font-medium text-gray-800">
-            {foundersNote?.value
-              ? foundersNote.value.split("\n\n")[0]
-              : "Our commitment has always been to the soil and those who tend it. Quality is not just a standard — it is our legacy."}
+            "Our commitment has always been to the soil and those who tend it. Quality is not just a standard — it is our legacy."
           </blockquote>
           <div className="flex items-center justify-center gap-3 mx-auto mb-6 w-fit">
             <div className="w-10 h-px bg-gray-300" />
