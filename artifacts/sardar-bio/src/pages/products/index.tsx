@@ -113,7 +113,7 @@ export default function Products() {
               <StaggerItem key={product.id}>
                 <Link href={`/products/${product.id}`} className="group block h-full" data-testid={`card-product-${product.id}`}>
                   <div className="bg-white h-full rounded-2xl border border-gray-100 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-black/8 transition-all duration-300 overflow-hidden flex flex-col">
-                    <div className="aspect-square bg-gray-50 overflow-hidden relative rounded-t-2xl">
+                    <div className="bg-gray-50 h-64 flex items-center justify-center overflow-hidden relative rounded-t-2xl">
                       {product.image_url ? (
                         <img
                           src={product.image_url}
