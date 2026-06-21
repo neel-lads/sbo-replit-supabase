@@ -1,18 +1,42 @@
-import { useGetProduct, getGetProductQueryKey } from "@workspace/api-client-react";
 import { useParams, Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function ProductDetail() {
   const params = useParams();
   const productId = parseInt(params.id || "0", 10);
   const [activeImage, setActiveImage] = useState(0);
+  const [product, setProduct] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const { data: product, isLoading, isError } = useGetProduct(productId, {
-    query: { enabled: !!productId, queryKey: getGetProductQueryKey(productId) }
-  });
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsLoading(true);
+      setIsError(false);
+
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", productId)
+        .single();
+
+      if (error) {
+        setIsError(true);
+      } else {
+        setProduct(data);
+      }
+
+      setIsLoading(false);
+    };
+
+    if (productId > 0) {
+      fetchProduct();
+    }
+  }, [productId]);
 
   if (isLoading) return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -66,23 +90,31 @@ export default function ProductDetail() {
           {/* Images Gallery */}
           <div className="flex flex-col gap-4">
             <div className="bg-gray-50 aspect-square rounded-2xl border border-gray-100 p-8 flex items-center justify-center relative overflow-hidden">
-              {product.images && product.images.length > 0 ? (
-                <img src={product.images[activeImage]} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+              
+              {product?.images?.length > 0 ? (
+                <img
+                  src={product.images[activeImage]}
+                  alt={product.name || "Product"}
+                  className="w-full h-full object-contain mix-blend-multiply"
+                />
               ) : (
                 <div className="text-gray-300">No Image Available</div>
               )}
+
               <div className="absolute top-5 left-5 flex gap-2">
                 <span className="bg-white text-[10px] px-3 py-1.5 uppercase tracking-widest font-bold rounded-full border border-gray-200 shadow-sm text-gray-700">
-                  {product.category.replace("-", " ")}
+                  {product?.category?.replace("-", " ") || "Category"}
                 </span>
+
                 <span className="bg-gray-900 text-white text-[10px] px-3 py-1.5 uppercase tracking-widest font-bold rounded-full">
-                  {product.form}
+                  {product?.form || "FORM"}
                 </span>
               </div>
             </div>
-            {product.images && product.images.length > 1 && (
+
+            {product?.images?.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
-                {product.images.map((img, idx) => (
+                {product.images.map((img: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
@@ -92,7 +124,11 @@ export default function ProductDetail() {
                         : "border-gray-200 hover:border-gray-400"
                     }`}
                   >
-                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain mix-blend-multiply" />
+                    <img
+                      src={img}
+                      alt={`${product?.name || "Product"} ${idx + 1}`}
+                      className="w-full h-full object-contain mix-blend-multiply"
+                    />
                   </button>
                 ))}
               </div>

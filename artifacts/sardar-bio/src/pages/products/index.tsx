@@ -1,18 +1,33 @@
-import { useState } from "react";
-import { useListProducts, getListProductsQueryKey } from "@workspace/api-client-react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/animate";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Products() {
   const [category, setCategory] = useState<string>("");
   const [form, setForm] = useState<string>("");
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      let query = supabase.from("products").select("*");
 
-  const { data: products, isLoading } = useListProducts(
-    { category: category || undefined, form: form || undefined },
-    { query: { queryKey: getListProductsQueryKey({ category: category || undefined, form: form || undefined }) } }
-  );
+      if (category) query = query.eq("category", category);
+      if (form) query = query.eq("form", form);
+
+      const { data, error } = await query;
+
+      console.log("PRODUCTS:", data);
+      console.log("ERROR:", error);
+
+      if (data) setProducts(data);
+      setIsLoading(false);
+    };
+
+    fetchProducts();
+  }, [category, form]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -105,7 +120,7 @@ export default function Products() {
                       )}
                       <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
                         <span className="bg-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold rounded-full border border-gray-100 shadow-sm text-gray-700">
-                          {product.category.replace("-", " ")}
+                          {product.category?.replace("-", " ") || "Category"}
                         </span>
                         <span className="bg-gray-900 text-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold rounded-full">
                           {product.form}
