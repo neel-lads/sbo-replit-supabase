@@ -82,22 +82,22 @@ export default function Contact() {
               {
                 icon: <MapPin className="w-5 h-5 text-[#00C62C]" />,
                 label: "Head Office",
-                content: <>Sardar Bio Organic<br />123 Agri Business Park<br />Gujarat, India 380001</>
+                content: <>Survey No. 4, Plot No. 28-29, Lalpari Talav Rd, Ambavadi, Navagam (Anandpar), Rajkot, Gujarat, India. - 360003</>
               },
               {
                 icon: <Phone className="w-5 h-5 text-[#00C62C]" />,
                 label: "Phone",
-                content: <>+91 98765 43210<br />+91 98765 43211</>
+                content: <>+91 98257 35427<br />+91 94272 37334</>
               },
               {
                 icon: <Mail className="w-5 h-5 text-[#00C62C]" />,
                 label: "Email",
-                content: <>info@sardarbio.com<br />sales@sardarbio.com</>
+                content: <>sardar2004.rjt@gmail.com</>
               },
               {
                 icon: <Clock className="w-5 h-5 text-[#00C62C]" />,
                 label: "Business Hours",
-                content: <>Monday - Saturday<br />9:30 AM – 6:30 PM IST</>
+                content: <>Monday - Saturday<br />10:00 AM – 5:30 PM IST</>
               },
             ].map((item) => (
               <div key={item.label} className="flex gap-4 items-start bg-gray-50 rounded-2xl p-5">
