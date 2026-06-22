@@ -28,7 +28,7 @@ export function Footer() {
         <div>
           <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-gray-800">Contact</h4>
           <div className="flex flex-col gap-3 text-gray-500 text-sm">
-            <p>Survey No. 4, Plot No. 28-29, Lalpari Talav Rd,<br />Ambavadi, Navagam (Anandpar), Rajkot<br />Gujarat, India. - 360003</p>
+            <p>Survey No. 4, Plot No. 28-29, Lalpari Talav Rd, Ambavadi, Navagam (Anandpar), Rajkot, Gujarat, India. - 360003</p>
             <p className="mt-1">sardar2004.rjt@gmail.com</p>
             <p>+91 98257 35427<br />+91 99090 26600</p>
           </div>

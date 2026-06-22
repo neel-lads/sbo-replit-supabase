@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function Products() {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [forms, setForms] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("");
   const [form, setForm] = useState<string>("");
   const [products, setProducts] = useState<any[]>([]);
@@ -19,6 +21,8 @@ export default function Products() {
   };
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
+
       let query = supabase.from("products").select("*");
 
       if (category) query = query.eq("category", category);
@@ -26,15 +30,37 @@ export default function Products() {
 
       const { data, error } = await query;
 
-      console.log("PRODUCTS:", data);
-      console.log("ERROR:", error);
+      if (data) {
+        setProducts(data);
 
-      if (data) setProducts(data);
+        const uniqueCategories = [...new Set(data.map(p => p.category).filter(Boolean))];
+        const uniqueForms = [...new Set(data.map(p => p.form).filter(Boolean))];
+
+        setCategories(uniqueCategories);
+        setForms(uniqueForms);
+      }
+
       setIsLoading(false);
     };
 
     fetchProducts();
   }, [category, form]);
+
+  useEffect(() => {
+    const fetchFilters = async () => {
+      const { data } = await supabase.from("products").select("category, form");
+
+      if (data) {
+        const uniqueCategories = [...new Set(data.map(p => p.category).filter(Boolean))];
+        const uniqueForms = [...new Set(data.map(p => p.form).filter(Boolean))];
+
+        setCategories(uniqueCategories);
+        setForms(uniqueForms);
+      }
+    };
+
+    fetchFilters();
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -61,28 +87,22 @@ export default function Products() {
         {/* Filters */}
         <FadeUp className="flex flex-col md:flex-row justify-between mb-12 gap-6">
           <div className="flex gap-3 flex-wrap">
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              data-testid="select-category"
-              className="bg-white border border-gray-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-[#00C62C] focus:ring-2 focus:ring-[#00C62C]/20 transition-all text-gray-700"
-            >
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className="...">
               <option value="">All Categories</option>
-              <option value="bio-pesticide">Bio Pesticides</option>
-              <option value="insecticide">Insecticides</option>
-              <option value="fungicide">Fungicides</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
 
-            <select
-              value={form}
-              onChange={(e) => setForm(e.target.value)}
-              data-testid="select-form"
-              className="bg-white border border-gray-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-[#00C62C] focus:ring-2 focus:ring-[#00C62C]/20 transition-all text-gray-700"
-            >
+            <select value={form} onChange={(e) => setForm(e.target.value)} className="...">
               <option value="">All Forms</option>
-              <option value="liquid">Liquid</option>
-              <option value="powder">Powder</option>
-              <option value="granules">Granules</option>
+              {forms.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
             </select>
           </div>
 
