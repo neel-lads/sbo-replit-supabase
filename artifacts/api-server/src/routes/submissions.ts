@@ -2,6 +2,8 @@ import { Router } from "express";
 import { db, contactSubmissionsTable, dealershipSubmissionsTable } from "@workspace/db";
 import { sql } from "drizzle-orm";
 import { CreateContactSubmissionBody, CreateDealershipSubmissionBody } from "@workspace/api-zod";
+import { sendContactEmail } from "../lib/email";
+import { Request, Response } from "express";
 
 const router = Router();
 
@@ -32,7 +34,7 @@ function mapDealership(s: typeof dealershipSubmissionsTable.$inferSelect) {
   };
 }
 
-router.get("/stats", async (_req, res) => {
+router.get("/stats", async (_req: Request, res: Response): Promise<void> => {
   const [contactTotal] = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(contactSubmissionsTable);
@@ -58,7 +60,7 @@ router.get("/stats", async (_req, res) => {
   });
 });
 
-router.get("/contact", async (_req, res) => {
+router.get("/contact", async (_req: Request, res: Response): Promise<void> => {
   const all = await db
     .select()
     .from(contactSubmissionsTable)
@@ -66,29 +68,50 @@ router.get("/contact", async (_req, res) => {
   res.json(all.map(mapContact));
 });
 
-router.post("/contact", async (req, res) => {
-  const parsed = CreateContactSubmissionBody.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: parsed.error.message });
+router.post(
+  "/contact",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const parsed = CreateContactSubmissionBody.safeParse(req.body);
 
-  const [created] = await db
-    .insert(contactSubmissionsTable)
-    .values(parsed.data)
-    .returning();
+      if (!parsed.success) {
+        res.status(400).json({ error: parsed.error.message });
+        return;
+      }
 
-  res.status(201).json(mapContact(created));
-});
+      const d = parsed.data;
 
-router.get("/dealership", async (_req, res) => {
-  const all = await db
-    .select()
-    .from(dealershipSubmissionsTable)
-    .orderBy(sql`${dealershipSubmissionsTable.createdAt} desc`);
-  res.json(all.map(mapDealership));
-});
+      // ✅ SAVE TO DB
+      const [created] = await db
+        .insert(contactSubmissionsTable)
+        .values({
+          name: d.name,
+          email: d.email,
+          phone: d.phone,
+          subject: d.subject,
+          message: d.message,
+        })
+        .returning();
 
-router.post("/dealership", async (req, res) => {
+      // ✅ SEND EMAIL
+      await sendContactEmail(d);
+
+      res.status(201).json(mapContact(created));
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to send message" });
+    }
+  }
+);
+
+router.post(
+  "/dealership",
+  async (req: Request, res: Response): Promise<void> => {
   const parsed = CreateDealershipSubmissionBody.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: parsed.error.message });
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.message });
+    return;
+  }
 
   const d = parsed.data;
   const [created] = await db
