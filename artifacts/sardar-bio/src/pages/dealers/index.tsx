@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  useLocateDealers,
-  useGetContent,
-  getLocateDealersQueryKey,
-} from "@workspace/api-client-react";
+import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Input } from "@/components/ui/input";
@@ -36,18 +32,69 @@ export default function Dealers() {
   const [searchPincode, setSearchPincode] = useState<string | null>(null);
   const [selectedDealer, setSelectedDealer] = useState<AnyDealer | null>(null);
 
-  const { data: introText } = useGetContent("dealers_intro");
+  const [nearbyDealers, setNearbyDealers] = useState<AnyDealer[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const { data: nearbyDealers, isLoading: searchLoading, isError } = useLocateDealers(
-    { pincode: searchPincode || "" },
-    { query: { enabled: !!searchPincode, queryKey: getLocateDealersQueryKey({ pincode: searchPincode || "" }) } }
-  );
+  const top3 = nearbyDealers.slice(0, 3);
 
-  const top3 = nearbyDealers?.slice(0, 3) ?? [];
-
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pincode.length === 6) setSearchPincode(pincode);
+
+    if (pincode.length !== 6) return;
+
+    setSearchLoading(true);
+    setIsError(false);
+
+    try {
+      const userLocation = await getLatLngFromPincode(pincode);
+      if (!userLocation) throw new Error("Invalid pincode");
+
+      const { data: dealers, error } = await supabase
+        .from("dealers")
+        .select("*");
+
+      if (error || !dealers) throw new Error("No dealers");
+
+      const withDistance = dealers.map((dealer: AnyDealer) => {
+        const dist =
+          Math.sqrt(
+            Math.pow(dealer.lat - userLocation.lat, 2) +
+            Math.pow(dealer.lng - userLocation.lng, 2)
+          ) * 111;
+
+        return { ...dealer, distance_km: dist };
+      });
+
+      const sorted = withDistance.sort(
+        (a, b) => a.distance_km! - b.distance_km!
+      );
+
+      setNearbyDealers(sorted);
+      setSearchPincode(pincode);
+    } catch (err) {
+      console.error(err);
+      setIsError(true);
+    }
+
+    setSearchLoading(false);
+  };
+
+  const getLatLngFromPincode = async (pincode: string) => {
+    const API_KEY = import.meta.env.VITE_OPENCAGE_API_KEY;
+
+    const res = await fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${pincode},India&key=${API_KEY}`
+    );
+
+    const data = await res.json();
+
+    if (!data || !data.results || data.results.length === 0) {return null;}
+
+    return {
+      lat: data.results[0].geometry.lat,
+      lng: data.results[0].geometry.lng,
+    };
   };
 
   const clearSearch = () => {
@@ -75,8 +122,7 @@ export default function Dealers() {
               Find a Dealer
             </h1>
             <p className="text-gray-600 text-base mb-10 leading-relaxed max-w-xl mx-auto">
-              {introText?.value?.split("\n\n")[0] ||
-                "Enter your pincode to find the 3 nearest authorised Sardar Bio Organic dealers in your area."}
+                Enter your pincode to find the 3 nearest authorised Sardar Bio Organic dealers in your area.
             </p>
           </FadeUp>
 
@@ -116,7 +162,7 @@ export default function Dealers() {
               <MapPin className="w-8 h-8 text-[#00C62C]" />
             </div>
             <p className="text-gray-500 text-lg">Enter your pincode above to find nearby dealers.</p>
-            <p className="text-gray-400 text-sm mt-2">We'll show you the 3 closest authorised dealers.</p>
+            <p className="text-gray-400 text-sm mt-2">The result will show you the 3 closest authorised dealers.</p>
           </FadeUp>
         ) : (
           <section>
