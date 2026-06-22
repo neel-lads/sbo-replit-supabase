@@ -28,37 +28,65 @@ export default function AdminDealers() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    
+
+    const lat = parseFloat(formData.get("lat") as string);
+    const lng = parseFloat(formData.get("lng") as string);
+
+    if (isNaN(lat) || isNaN(lng)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid coordinates",
+        description: "Latitude & Longitude must be valid numbers",
+      });
+      return;
+    }
+
     const data = {
       firm_name: formData.get("firm_name") as string,
       contact: formData.get("contact") as string,
-      email: formData.get("email") as string,
+      email: formData.get("email")
+        ? String(formData.get("email"))
+        : undefined,
       address: formData.get("address") as string,
       pincode: formData.get("pincode") as string,
-      lat: parseFloat(formData.get("lat") as string),
-      lng: parseFloat(formData.get("lng") as string),
-      map_link: formData.get("map_link") as string,
+      lat,
+      lng,
+      map_link: formData.get("map_link")
+        ? String(formData.get("map_link"))
+        : undefined,
     };
 
     if (editingDealer) {
-      updateDealer.mutate({ id: editingDealer.id, data }, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getListDealersQueryKey() });
-          setIsDialogOpen(false);
-          toast({ title: "Dealer updated" });
+      updateDealer.mutate(
+        {
+          id: editingDealer.id,
+          data: data,
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: getListDealersQueryKey() });
+            setIsDialogOpen(false);
+            setEditingDealer(null);
+            toast({ title: "Dealer updated" });
+          },
         }
-      });
+      );
     } else {
-      createDealer.mutate({ data }, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getListDealersQueryKey() });
-          setIsDialogOpen(false);
-          toast({ title: "Dealer created" });
+      createDealer.mutate(
+        {
+          data: data,
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: getListDealersQueryKey() });
+            setIsDialogOpen(false);
+            toast({ title: "Dealer created" });
+          },
         }
-      });
+      );
     }
   };
-
+  
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this dealer?")) {
       deleteDealer.mutate({ id }, {
