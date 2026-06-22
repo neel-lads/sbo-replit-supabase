@@ -18,6 +18,21 @@ type product = {
 export default function Home() {
   const [products, setProducts] = useState<product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (products.length === 0) return;
+
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % products.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [products]);
+  const visibleProducts = [
+    products[index],
+    products[(index + 1) % products.length],
+    products[(index + 2) % products.length],
+  ];
   const getImageUrl = (path: string) => {
     if (!path) return "";
 
@@ -27,7 +42,7 @@ export default function Home() {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from("products").select("*");
+      const { data, error } = await supabase.from("products").select("*").eq("featured", true);
 
       console.log("SUPABASE DATA:", data);
       console.log("SUPABASE ERROR:", error);
@@ -222,9 +237,15 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {products?.map((product) => (
-                <StaggerItem key={product.id}>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
+              {visibleProducts.map((product) => (
+                <div key={product.id}>
                   <Link href={`/products/${product.id}`} className="group block h-full">
                     <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
                       <div className="aspect-[4/3] bg-gray-50 relative rounded-t-2xl flex items-center justify-center overflow-hidden">
@@ -269,9 +290,9 @@ export default function Home() {
                       </div>
                     </div>
                   </Link>
-                </StaggerItem>
+                </div>
               ))}
-            </StaggerContainer>
+            </motion.div>
           )}
         </div>
       </section>
