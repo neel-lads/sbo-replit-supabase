@@ -11,7 +11,7 @@ export function Footer() {
           </Link>
           <div className="w-10 h-1 rounded-full bg-[#00C62C]/40 mt-3 mb-4" />
           <p className="text-gray-600 max-w-sm leading-relaxed">
-            Premium organic farming wholesale company operating since 2004. Quality bio pesticides, insecticides, and fungicides for professional agriculture.
+            Delivering trusted organic agricultural solutions since 2004. Supporting farmers and partners with reliable, field-proven products across every stage of growth.
           </p>
         </div>
 

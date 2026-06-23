@@ -76,7 +76,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            Est. 2004
+            Since 2004
           </motion.span>
 
           <motion.h1
@@ -85,8 +85,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
-            Nurturing nature with{" "}
-            <span className="text-[#00C62C] italic">quiet authority</span>.
+            The Future of{" "}
+            <span className="text-[#00C62C] italic">Organic Farming</span>
           </motion.h1>
 
           <motion.p
@@ -95,8 +95,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            Premium wholesalers of bio pesticides, insecticides, and fungicides.
-            Equipping farmers with superior organic solutions for over two decades.
+            Empowering agriculture with trusted organic solutions, 
+            built on decades of field-proven expertise.
           </motion.p>
 
           <motion.div
@@ -161,13 +161,17 @@ export default function Home() {
               <FadeUp>
                 <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">About Us</span>
                 <h2 className="text-4xl font-serif font-bold mt-3 mb-6 leading-tight text-gray-900">
-                  Rooted in over two decades of experience
+                  Over two decades of understanding what truly matters in agriculture.
                 </h2>
               </FadeUp>
               <FadeUp delay={0.15}>
                 <div className="text-gray-500 leading-relaxed space-y-4">
                   <p>
-                    Founded by Amitbhai Ladani and Hasubhai Patel, Sardar Bio Organic has stood as a pillar of reliability in the agricultural wholesale sector since 2004.
+                    Founded by Amitbhai Ladani and Hasubhai Patel, Sardar Bio Organic has been a trusted name in organic agricultural solutions since 2004. With a deep understanding of farming practices and evolving crop needs, the company has consistently delivered reliable, high-quality bio products that support sustainable growth.
+
+                    Over the years, we have built strong relationships with farmers, dealers, and distributors by focusing on effectiveness, consistency, and long-term value. Our product range is designed to improve crop health while maintaining ecological balance.
+
+                    Driven by experience and grounded in practical field knowledge, Sardar Bio Organic continues to empower modern agriculture with solutions that are both efficient and environmentally responsible.
                   </p>
                 </div>
               </FadeUp>
@@ -203,7 +207,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-2xl border border-gray-100 p-6">
                   <div className="text-xs uppercase tracking-widest text-gray-400 mb-2">Operating Since</div>
                   <div className="text-4xl font-serif font-bold text-gray-900">2004</div>
-                  <div className="text-sm text-gray-400 mt-1">Wholesale &amp; Stockist, Gujarat</div>
+                  <div className="text-sm text-gray-400 mt-1">Supporting farmers and partners across Gujarat and beyond</div>
                 </div>
               </StaggerItem>
             </StaggerContainer>
@@ -217,8 +221,8 @@ export default function Home() {
           <div className="flex justify-between items-end mb-14">
             <FadeUp>
               <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">What We Offer</span>
-              <h2 className="text-4xl font-serif font-bold mt-3 text-gray-900">Featured Solutions</h2>
-              <p className="text-gray-500 mt-2">Our most trusted organic compounds.</p>
+              <h2 className="text-4xl font-serif font-bold mt-3 text-gray-900">Featured Products</h2>
+              <p className="text-gray-500 mt-2">Our most trusted organic solutions.</p>
             </FadeUp>
             <FadeIn delay={0.2}>
               <Link href="/products" className="text-sm font-semibold text-[#00C62C] hover:underline transition-all">
@@ -299,13 +303,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <FadeUp className="text-center mb-16">
             <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Why Sardar Bio</span>
-            <h2 className="text-3xl font-serif font-bold mt-3 text-gray-900">Trusted Across the Supply Chain</h2>
+            <h2 className="text-3xl font-serif font-bold mt-3 text-gray-900">Built for the Field. Trusted Beyond It.</h2>
           </FadeUp>
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { title: "Verified Quality", body: "Every product meets stringent organic farming standards tested for efficacy and environmental safety." },
-              { title: "Wide Distribution", body: "Authorized dealers across Gujarat and neighboring states ensure timely and consistent supply." },
-              { title: "Expert Support", body: "Two decades of domain expertise backing every product recommendation and dealer partnership." },
+              { title: "Field-Proven Solutions", body: "Every product is shaped by real agricultural challenges and tested in actual farming conditions, ensuring reliable performance where it truly matters." },
+              { title: "Strong Regional Presence", body: "With a well-established network across Gujarat and beyond, we ensure accessibility, consistency, and dependable partnerships across the agricultural ecosystem." },
+              { title: "Backed by Experience", body: "With over two decades in the industry, our expertise translates into products and recommendations that are practical, effective, and trusted over time." },
             ].map((item) => (
               <StaggerItem key={item.title}>
                 <div className="bg-gray-50 rounded-2xl p-8 h-full hover:bg-green-50 hover:border-[#00C62C]/20 border border-transparent transition-all duration-300 group">
@@ -333,12 +337,10 @@ export default function Home() {
             </svg>
           </div>
           <blockquote className="text-2xl md:text-3xl font-serif leading-relaxed mb-10 font-medium text-gray-800">
-            "Our commitment has always been to the soil and those who tend it. Quality is not just a standard — it is our legacy."
+            "Behind every product is a deeper commitment to the land, to the farmer, and to the future of agriculture."
           </blockquote>
           <div className="flex items-center justify-center gap-3 mx-auto mb-6 w-fit">
-            <div className="w-10 h-px bg-gray-300" />
             <div className="w-16 h-0.5 rounded-full bg-[#00C62C]" />
-            <div className="w-10 h-px bg-gray-300" />
           </div>
           <div className="font-bold uppercase tracking-widest text-sm text-gray-900">Amitbhai Ladani &amp; Hasubhai Patel</div>
           <div className="text-sm mt-2 text-gray-500 uppercase tracking-wider">Founders, Sardar Bio Organic</div>
