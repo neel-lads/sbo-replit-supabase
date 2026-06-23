@@ -43,7 +43,7 @@ export async function sendDealershipEmail(data: {
   try {
     await resend.emails.send({
       from: "Sardar Bio Organic <onboarding@resend.dev>",
-      to: ["your-email@gmail.com"],
+      to: ["sardar2004.rjt@gmail.com"],
       subject: `New Dealership Enquiry`,
       html: `
         <h2>New Dealership Application</h2>
@@ -58,7 +58,7 @@ export async function sendDealershipEmail(data: {
       `,
     });
 
-    console.log("Dealership email sent 🚀");
+    console.log("Dealership email sent successfully !");
   } catch (err) {
     console.error("Dealership email error:", err);
   }
