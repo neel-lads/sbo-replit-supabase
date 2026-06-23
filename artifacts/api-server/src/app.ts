@@ -31,4 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
 export default app;

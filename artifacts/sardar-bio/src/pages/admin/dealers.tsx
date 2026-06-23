@@ -187,7 +187,7 @@ export default function AdminDealers() {
             ) : dealers?.length === 0 ? (
               <tr><td colSpan={4} className="px-6 py-8 text-center text-gray-500">No dealers found.</td></tr>
             ) : (
-              dealers?.map(dealer => (
+              dealers?.map((dealer: Dealer) => (
                 <tr key={dealer.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 font-medium">{dealer.firm_name}</td>
                   <td className="px-6 py-4 text-gray-600">{dealer.contact}</td>

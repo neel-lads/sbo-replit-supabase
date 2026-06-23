@@ -6,7 +6,7 @@ export const contentTable = pgTable("content", {
   id: serial("id").primaryKey(),
   key: text("key").notNull().unique(),
   value: text("value").notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const insertContentSchema = createInsertSchema(contentTable).omit({ id: true, updatedAt: true });

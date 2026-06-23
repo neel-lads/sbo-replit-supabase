@@ -106,16 +106,13 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
-              size="lg"
-              className="bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white hover:opacity-90 rounded-full uppercase tracking-wider text-sm px-10 h-13 font-semibold shadow-lg shadow-green-900/30 border-0"
+              className="px-6 py-3 bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white hover:opacity-90 rounded-full uppercase tracking-wider text-sm px-10 h-13 font-semibold shadow-lg shadow-green-900/30 border-0"
               asChild
             >
               <Link href="/products">View Products</Link>
             </Button>
             <Button
-              size="lg"
-              variant="outline"
-              className="border-white/60 text-white bg-white/10 hover:bg-white hover:text-black rounded-full uppercase tracking-wider text-sm px-10 h-13 shadow-none backdrop-blur-sm"
+              className="px-6 py-3 border-white/60 text-white bg-white/10 hover:bg-white hover:text-black rounded-full uppercase tracking-wider text-sm px-10 h-13 shadow-none backdrop-blur-sm"
               asChild
             >
               <Link href="/dealers">Find a Dealer</Link>
@@ -357,8 +354,7 @@ export default function Home() {
               <p className="text-white/70 mt-1 text-sm">Enquire about dealership opportunities across Gujarat and beyond.</p>
             </div>
             <Button
-              size="lg"
-              className="bg-white text-[#00C62C] hover:bg-gray-50 rounded-full uppercase tracking-wider text-sm px-10 h-13 shadow-none flex-shrink-0 font-bold border-0"
+              className="px-6 py-3 bg-white text-[#00C62C] hover:bg-gray-50 rounded-full uppercase tracking-wider text-sm px-10 h-13 shadow-none flex-shrink-0 font-bold border-0"
               asChild
             >
               <Link href="/contact">Become a Dealer</Link>
