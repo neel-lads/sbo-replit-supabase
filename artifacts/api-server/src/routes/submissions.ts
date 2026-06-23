@@ -82,7 +82,6 @@ router.post(
 
       const d = parsed.data;
 
-      // ✅ SAVE TO DB
       const [created] = await db
         .insert(contactSubmissionsTable)
         .values({
@@ -94,7 +93,6 @@ router.post(
         })
         .returning();
 
-      // ✅ SEND EMAIL
       await sendContactEmail(d);
 
       res.status(201).json(mapContact(created));
