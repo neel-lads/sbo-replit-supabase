@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useCreateContactSubmission, useCreateDealershipSubmission } from "@workspace/api-client-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Input } from "@/components/ui/input";
@@ -8,52 +7,99 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
+
 export default function Contact() {
   const [activeTab, setActiveTab] = useState<"contact" | "dealership">("contact");
   const { toast } = useToast();
 
-  const createContact = useCreateContactSubmission();
-  const createDealership = useCreateDealershipSubmission();
+  const [loadingContact, setLoadingContact] = useState(false);
+  const [loadingDealership, setLoadingDealership] = useState(false);
 
-  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoadingContact(true);
+
     const formData = new FormData(e.currentTarget);
+
     const data = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      subject: formData.get("subject") as string,
-      message: formData.get("message") as string,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
     };
-    createContact.mutate({ data }, {
-      onSuccess: () => {
-        toast({ title: "Message sent", description: "We'll get back to you shortly." });
-        (e.target as HTMLFormElement).reset();
-      },
-      onError: () => toast({ variant: "destructive", title: "Error", description: "Failed to send message." })
-    });
+
+    try {
+      const res = await fetch("https://sbo-replit-supabase.onrender.com/api/submissions/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error();
+
+      toast({
+        title: "Message sent",
+        description: "We'll get back to you shortly.",
+      });
+
+      (e.target as HTMLFormElement).reset();
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to send message.",
+      });
+    } finally {
+      setLoadingContact(false);
+    }
   };
 
-  const handleDealershipSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleDealershipSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoadingDealership(true);
+
     const formData = new FormData(e.currentTarget);
+
     const data = {
-      name: formData.get("name") as string,
-      firm_name: formData.get("firm_name") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      gst_number: formData.get("gst_number") as string,
-      area_pincode: formData.get("area_pincode") as string,
-      subject: formData.get("subject") as string,
-      message: formData.get("message") as string,
+      name: formData.get("name"),
+      firm_name: formData.get("firm_name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      gst_number: formData.get("gst_number"),
+      area_pincode: formData.get("area_pincode"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
     };
-    createDealership.mutate({ data }, {
-      onSuccess: () => {
-        toast({ title: "Application submitted", description: "Our team will review your enquiry." });
-        (e.target as HTMLFormElement).reset();
-      },
-      onError: () => toast({ variant: "destructive", title: "Error", description: "Failed to submit application." })
-    });
+
+    try {
+      const res = await fetch("https://sbo-replit-supabase.onrender.com/api/submissions/dealership", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error();
+
+      toast({
+        title: "Application submitted",
+        description: "Our team will review your enquiry.",
+      });
+
+      (e.target as HTMLFormElement).reset();
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to submit application.",
+      });
+    } finally {
+      setLoadingDealership(false);
+    }
   };
 
   const inputClass = "rounded-xl border-gray-200 focus-visible:ring-[#00C62C]/30 focus-visible:border-[#00C62C] h-12 transition-all";
@@ -166,10 +212,10 @@ export default function Contact() {
                 </div>
                 <Button
                   type="submit"
-                  disabled={createContact.isPending}
+                  disabled={loadingContact}
                   className="bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white hover:opacity-90 rounded-full h-12 px-10 uppercase tracking-wider text-sm font-semibold mt-2 shadow-md shadow-green-200 border-0"
                 >
-                  {createContact.isPending ? "Sending..." : "Send Message"}
+                  {loadingContact ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             )}
@@ -216,10 +262,10 @@ export default function Contact() {
                 </div>
                 <Button
                   type="submit"
-                  disabled={createDealership.isPending}
+                  disabled={loadingDealership}
                   className="bg-gradient-to-r from-[#00C62C] to-[#00a325] text-white hover:opacity-90 rounded-full h-12 px-10 uppercase tracking-wider text-sm font-semibold mt-2 shadow-md shadow-green-200 border-0"
                 >
-                  {createDealership.isPending ? "Submitting..." : "Submit Application"}
+                  {loadingDealership ? "Submitting..." : "Submit Application"}
                 </Button>
               </form>
             )}
