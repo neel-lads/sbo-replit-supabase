@@ -4,6 +4,7 @@ import { sql } from "drizzle-orm";
 import { CreateContactSubmissionBody, CreateDealershipSubmissionBody } from "@workspace/api-zod";
 import { sendContactEmail } from "../lib/email";
 import { Request, Response } from "express";
+import { sendDealershipEmail } from "../lib/email";
 
 const router = Router();
 
@@ -107,28 +108,33 @@ router.post(
 router.post(
   "/dealership",
   async (req: Request, res: Response): Promise<void> => {
-  const parsed = CreateDealershipSubmissionBody.safeParse(req.body);
-  if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.message });
-    return;
+    const parsed = CreateDealershipSubmissionBody.safeParse(req.body);
+
+    if (!parsed.success) {
+      res.status(400).json({ error: parsed.error.message });
+      return;
+    }
+
+    const d = parsed.data;
+
+    const [created] = await db
+      .insert(dealershipSubmissionsTable)
+      .values({
+        name: d.name,
+        firmName: d.firm_name,
+        email: d.email,
+        phone: d.phone,
+        gstNumber: d.gst_number,
+        areaPincode: d.area_pincode,
+        subject: d.subject,
+        message: d.message,
+      })
+      .returning();
+
+    await sendDealershipEmail(d);
+
+    res.status(201).json(mapDealership(created));
   }
-
-  const d = parsed.data;
-  const [created] = await db
-    .insert(dealershipSubmissionsTable)
-    .values({
-      name: d.name,
-      firmName: d.firm_name,
-      email: d.email,
-      phone: d.phone,
-      gstNumber: d.gst_number,
-      areaPincode: d.area_pincode,
-      subject: d.subject,
-      message: d.message,
-    })
-    .returning();
-
-  res.status(201).json(mapDealership(created));
-});
+);
 
 export default router;
