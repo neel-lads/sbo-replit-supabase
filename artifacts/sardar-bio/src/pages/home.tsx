@@ -410,11 +410,9 @@ export default function Home() {
                 title: "Field-Proven Solutions",
                 body: "Every product is shaped by real agricultural challenges and tested in actual farming conditions, ensuring reliable performance where it truly matters.",
                 icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <>
-                      <path d="M12 2C8 6 6 10 6 14a6 6 0 0012 0c0-4-2-8-6-12z" />
-                      <path d="M12 6v10" strokeWidth="2" strokeLinecap="round" />
-                    </>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
+                    <path d="M12 2C8 6 6 10 6 14a6 6 0 0012 0c0-4-2-8-6-12z" />
+                    <path d="M12 6v10" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 ),
               },
