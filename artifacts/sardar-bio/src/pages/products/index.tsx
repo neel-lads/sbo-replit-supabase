@@ -23,7 +23,7 @@ export default function Products() {
     const fetchProducts = async () => {
       setIsLoading(true);
 
-      let query = supabase.from("products").select("*");
+      let query = supabase.from("products").select("*").order("name", { ascending: true });
 
       if (category) query = query.eq("category", category);
       if (form) query = query.eq("form", form);
@@ -75,9 +75,9 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <FadeUp>
             <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Our Range</span>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-900 mt-3 mb-4">Our Solutions</h1>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-gray-900 mt-3 mb-4">Our Products</h1>
             <p className="text-gray-600 max-w-xl text-lg">
-              Premium organic compounds designed for maximum efficacy and minimal environmental impact.
+              Field-proven organic solutions designed to protect crops, enrich soil, and deliver consistent results across every stage of growth.
             </p>
           </FadeUp>
         </div>

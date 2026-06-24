@@ -205,13 +205,17 @@ export default function Home() {
 
             <StaggerContainer className="flex flex-col gap-4">
               {[
-                { name: "Amitbhai Ladani", role: "Co-Founder" },
-                { name: "Hasubhai Patel", role: "Co-Founder" },
+                { name: "Amitbhai Ladani", role: "Co-Founder", image: "/founders/amitbhai.jpg" },
+                { name: "Hasubhai Patel", role: "Co-Founder", image: "/founders/hasubhai.jpg" },
               ].map((founder) => (
                 <StaggerItem key={founder.name}>
                   <div className="border border-gray-100 rounded-2xl p-6 flex items-center gap-5 hover:border-[#00C62C]/30 hover:bg-green-50/50 hover:shadow-sm transition-all duration-300">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#00C62C] to-[#00a325] flex items-center justify-center flex-shrink-0 text-white font-bold text-lg font-serif shadow-sm">
-                      {founder.name[0]}
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#00C62C] shadow-sm flex-shrink-0">
+                      <img
+                        src={founder.image}
+                        alt={founder.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <div className="font-serif font-bold text-gray-900">{founder.name}</div>
@@ -402,14 +406,40 @@ export default function Home() {
           </FadeUp>
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { title: "Field-Proven Solutions", body: "Every product is shaped by real agricultural challenges and tested in actual farming conditions, ensuring reliable performance where it truly matters." },
-              { title: "Strong Regional Presence", body: "With a well-established network across Gujarat and beyond, we ensure accessibility, consistency, and dependable partnerships across the agricultural ecosystem." },
-              { title: "Backed by Experience", body: "With over two decades in the industry, our expertise translates into products and recommendations that are practical, effective, and trusted over time." },
+              {
+                title: "Field-Proven Solutions",
+                body: "Every product is shaped by real agricultural challenges and tested in actual farming conditions, ensuring reliable performance where it truly matters.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M12 21c-4-4-6-7-6-10a6 6 0 1112 0c0 3-2 6-6 10z" />
+                  </svg>
+                ),
+              },
+              {
+                title: "Strong Regional Presence",
+                body: "With a well-established network across Gujarat and beyond, we ensure accessibility, consistency, and dependable partnerships across the agricultural ecosystem.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                    <circle cx="12" cy="11" r="3" />
+                  </svg>
+                ),
+              },
+              {
+                title: "Backed by Experience",
+                body: "With over two decades in the industry, our expertise translates into products and recommendations that are practical, effective, and trusted over time.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 3" />
+                  </svg>
+                ),
+              },
             ].map((item) => (
               <StaggerItem key={item.title}>
                 <div className="bg-gray-50 rounded-2xl p-8 h-full hover:bg-green-50 hover:border-[#00C62C]/20 border border-transparent transition-all duration-300 group">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00C62C] to-[#00a325] flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform">
-                    <div className="w-4 h-0.5 bg-white rounded-full" />
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00C62C] to-[#00a325] flex items-center justify-center mb-5 shadow-sm text-white group-hover:scale-110 transition-transform">
+                    {item.icon}
                   </div>
                   <h3 className="font-serif font-bold text-xl mb-3 text-gray-900">{item.title}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{item.body}</p>
