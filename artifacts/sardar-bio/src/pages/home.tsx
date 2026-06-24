@@ -45,7 +45,7 @@ export default function Home() {
       setCurrentIndex((prev) =>
         prev === visibleProducts.length - 1 ? 0 : prev + 1
       );
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [isPaused, visibleProducts.length]);
@@ -264,7 +264,7 @@ export default function Home() {
                 onTouchEnd={() => setIsPaused(false)}
               >
                 <div
-                  className="flex transition-transform duration-700 ease-in-out"
+                  className="flex transition-transform duration-500 ease-in-out will-change-transform"
                   style={{
                     transform: `translateX(-${currentIndex * 100}%)`,
                   }}
@@ -328,20 +328,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-
-                {/* 🔥 DOT INDICATORS */}
-                <div className="flex justify-center mt-4 gap-2">
-                  {visibleProducts.map((_, i) => (
-                    <div
-                      key={i}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        i === currentIndex ? "bg-[#00C62C]" : "bg-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
               </div>
-
 
               {/* 🔥 DESKTOP GRID */}
               <div className="hidden md:grid md:grid-cols-3 gap-8">
