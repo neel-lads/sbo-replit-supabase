@@ -411,7 +411,10 @@ export default function Home() {
                 body: "Every product is shaped by real agricultural challenges and tested in actual farming conditions, ensuring reliable performance where it truly matters.",
                 icon: (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M12 21c-4-4-6-7-6-10a6 6 0 1112 0c0 3-2 6-6 10z" />
+                    <>
+                      <path d="M12 2C8 6 6 10 6 14a6 6 0 0012 0c0-4-2-8-6-12z" />
+                      <path d="M12 6v10" strokeWidth="2" strokeLinecap="round" />
+                    </>
                   </svg>
                 ),
               },
