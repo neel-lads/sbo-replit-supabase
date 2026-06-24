@@ -7,6 +7,7 @@ import { FadeUp, FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/compon
 import { motion } from "framer-motion";
 import heroFarm from "@/assets/hero-farm.png";
 import { supabase } from "@/lib/supabase";
+
 type product = {
   id: number;
   name: string;
@@ -33,6 +34,22 @@ export default function Home() {
     products[(index + 1) % products.length],
     products[(index + 2) % products.length],
   ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) =>
+        prev === visibleProducts.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, visibleProducts.length]);
+
   const getImageUrl = (path: string) => {
     if (!path) return "";
 
@@ -238,62 +255,153 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            >
-              {visibleProducts.map((product) => (
-                <div key={product.id}>
-                  <Link href={`/products/${product.id}`} className="group block h-full">
-                    <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
-                      <div className="aspect-[4/3] bg-gray-50 relative rounded-t-2xl flex items-center justify-center overflow-hidden">
 
-                        {product.image_url ? (
-                          <img
-                            src={product.image_url}
-                            alt={product.name}
-                            className="h-full w-full object-contain p-4"
-                          />
-                        ) : (
-                          <div className="text-gray-300 text-sm">
-                            No Image
+            <>
+              {/* 🔥 MOBILE SLIDER */}
+              <div
+                className="overflow-hidden md:hidden"
+                onTouchStart={() => setIsPaused(true)}
+                onTouchEnd={() => setIsPaused(false)}
+              >
+                <div
+                  className="flex transition-transform duration-700 ease-in-out"
+                  style={{
+                    transform: `translateX(-${currentIndex * 100}%)`,
+                  }}
+                >
+                  {visibleProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="w-full flex-shrink-0 px-2"
+                    >
+                      <Link href={`/products/${product.id}`} className="group block h-full">
+                        <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
+
+                          <div className="aspect-[4/3] bg-gray-50 relative rounded-t-2xl flex items-center justify-center overflow-hidden">
+                            {product.image_url ? (
+                              <img
+                                src={product.image_url}
+                                alt={product.name}
+                                className="h-full w-full object-contain p-4"
+                              />
+                            ) : (
+                              <div className="text-gray-300 text-sm">
+                                No Image
+                              </div>
+                            )}
+
+                            <div className="absolute top-4 left-4">
+                              <span className="bg-white text-[10px] px-3 py-1 uppercase tracking-widest font-bold rounded-full border border-gray-100 shadow-sm">
+                                {product.category ? product.category.replace("-", " ") : "Category"}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-white text-[10px] px-3 py-1 uppercase tracking-widest font-bold rounded-full border border-gray-100 shadow-sm">
-                            {product.category ? product.category.replace("-", " ") : "Category"}
-                          </span>
+
+                          <div className="p-6">
+                            <div className="flex items-start justify-between gap-4 mb-3">
+                              <h3 className="text-xl font-serif font-bold group-hover:text-[#00C62C] transition-colors leading-tight text-gray-900">
+                                {product.name}
+                              </h3>
+                              <span className="bg-gray-900 text-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold flex-shrink-0 rounded-full">
+                                {product.form || "FORM"}
+                              </span>
+                            </div>
+
+                            <p className="text-gray-400 text-sm line-clamp-2">
+                              {product.description || "No description available"}
+                            </p>
+
+                            <div className="flex items-center gap-1 mt-5 text-xs font-bold uppercase tracking-widest text-[#00C62C]">
+                              <span>View Details</span>
+                              <motion.span
+                                className="inline-block"
+                                animate={{ x: [0, 4, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                              >
+                                →
+                              </motion.span>
+                            </div>
+                          </div>
+
                         </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-start justify-between gap-4 mb-3">
-                          <h3 className="text-xl font-serif font-bold group-hover:text-[#00C62C] transition-colors leading-tight text-gray-900">
-                            {product.name}
-                          </h3>
-                          <span className="bg-gray-900 text-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold flex-shrink-0 rounded-full">
-                            {product.form || "FORM"}
-                          </span>
-                        </div>
-                        <p className="text-gray-400 text-sm line-clamp-2">{product.description || "No description available"}</p>
-                        <div className="flex items-center gap-1 mt-5 text-xs font-bold uppercase tracking-widest text-[#00C62C]">
-                          <span>View Details</span>
-                          <motion.span
-                            className="inline-block"
-                            animate={{ x: [0, 4, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                          >
-                            →
-                          </motion.span>
-                        </div>
-                      </div>
+                      </Link>
                     </div>
-                  </Link>
+                  ))}
                 </div>
-              ))}
-            </motion.div>
+
+                {/* 🔥 DOT INDICATORS */}
+                <div className="flex justify-center mt-4 gap-2">
+                  {visibleProducts.map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        i === currentIndex ? "bg-[#00C62C]" : "bg-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+
+              {/* 🔥 DESKTOP GRID */}
+              <div className="hidden md:grid md:grid-cols-3 gap-8">
+                {visibleProducts.map((product) => (
+                  <div key={product.id}>
+                    <Link href={`/products/${product.id}`} className="group block h-full">
+                      <div className="bg-white h-full rounded-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/8 overflow-hidden">
+
+                        <div className="aspect-[4/3] bg-gray-50 relative rounded-t-2xl flex items-center justify-center overflow-hidden">
+                          {product.image_url ? (
+                            <img
+                              src={product.image_url}
+                              alt={product.name}
+                              className="h-full w-full object-contain p-4"
+                            />
+                          ) : (
+                            <div className="text-gray-300 text-sm">
+                              No Image
+                            </div>
+                          )}
+
+                          <div className="absolute top-4 left-4">
+                            <span className="bg-white text-[10px] px-3 py-1 uppercase tracking-widest font-bold rounded-full border border-gray-100 shadow-sm">
+                              {product.category ? product.category.replace("-", " ") : "Category"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-6">
+                          <div className="flex items-start justify-between gap-4 mb-3">
+                            <h3 className="text-xl font-serif font-bold group-hover:text-[#00C62C] transition-colors leading-tight text-gray-900">
+                              {product.name}
+                            </h3>
+                            <span className="bg-gray-900 text-white text-[9px] px-2.5 py-1 uppercase tracking-widest font-bold flex-shrink-0 rounded-full">
+                              {product.form || "FORM"}
+                            </span>
+                          </div>
+
+                          <p className="text-gray-400 text-sm line-clamp-2">
+                            {product.description || "No description available"}
+                          </p>
+
+                          <div className="flex items-center gap-1 mt-5 text-xs font-bold uppercase tracking-widest text-[#00C62C]">
+                            <span>View Details</span>
+                            <motion.span
+                              className="inline-block"
+                              animate={{ x: [0, 4, 0] }}
+                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                              →
+                            </motion.span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </section>
