@@ -140,20 +140,27 @@ export default function ProductDetail() {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {product.packaging && (
-                  <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-2">Available Packaging</h3>
-                    <div className="text-gray-900 font-medium">{product.packaging}</div>
+              {product.notes && (
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-4 pb-2 border-b border-gray-100">
+                    Notes
+                  </h3>
+                  <div className="text-gray-600 whitespace-pre-line leading-relaxed">
+                    {product.notes}
                   </div>
-                )}
-                {product.notes && (
-                  <div className="bg-green-50 p-5 rounded-2xl border border-green-100">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-2">Notes</h3>
-                    <div className="text-gray-700 font-medium">{product.notes}</div>
+                </div>
+              )}
+
+              {product.packaging && (
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#00C62C] mb-4 pb-2 border-b border-gray-100">
+                    Available Packaging
+                  </h3>
+                  <div className="text-gray-600 whitespace-pre-line leading-relaxed">
+                    {product.packaging}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             <div className="mt-14">
