@@ -93,7 +93,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            Since 2004
+            Est. 2004
           </motion.span>
 
           <motion.h1
