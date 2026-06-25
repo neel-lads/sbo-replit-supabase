@@ -116,7 +116,7 @@ export default function ProductDetail() {
           {/* Product Info */}
           <div>
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-5">{product.name}</h1>
-            <p className="text-gray-600 whitespace-pre-line leading-relaxed">{product.description}</p>
+            <div className="text-gray-600 whitespace-pre-line leading-relaxed">{product.description}</div>
 
             <div className="space-y-10">
               {product.content && (
