@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MapPin, Phone, Mail, Search, ExternalLink, Building2, X } from "lucide-react";
+import { MapPin, Phone, Mail, ExternalLink, Building2, X } from "lucide-react";
 import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/animate";
 
 type AnyDealer = {
@@ -27,9 +27,32 @@ type AnyDealer = {
   created_at: string;
 };
 
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) {
+  const R = 6371;
+
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) *
+      Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 export default function Dealers() {
-  const [pincode, setPincode] = useState("");
-  const [searchPincode, setSearchPincode] = useState<string | null>(null);
+
+  const [locationFound, setLocationFound] = useState(false);
+
   const [selectedDealer, setSelectedDealer] = useState<AnyDealer | null>(null);
 
   const [nearbyDealers, setNearbyDealers] = useState<AnyDealer[]>([]);
@@ -38,68 +61,71 @@ export default function Dealers() {
 
   const top3 = nearbyDealers.slice(0, 3);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (pincode.length !== 6) return;
-
+  const handleSearch = async () => {
     setSearchLoading(true);
     setIsError(false);
 
-    try {
-      const userLocation = await getLatLngFromPincode(pincode);
-      if (!userLocation) throw new Error("Invalid pincode");
-
-      const { data: dealers, error } = await supabase
-        .from("dealers")
-        .select("*");
-
-      if (error || !dealers) throw new Error("No dealers");
-
-      const withDistance = dealers.map((dealer: AnyDealer) => {
-        const dist =
-          Math.sqrt(
-            Math.pow(dealer.lat - userLocation.lat, 2) +
-            Math.pow(dealer.lng - userLocation.lng, 2)
-          ) * 111;
-
-        return { ...dealer, distance_km: dist };
-      });
-
-      const sorted = withDistance.sort(
-        (a, b) => a.distance_km! - b.distance_km!
-      );
-
-      setNearbyDealers(sorted);
-      setSearchPincode(pincode);
-    } catch (err) {
-      console.error(err);
+    if (!navigator.geolocation) {
+      setSearchLoading(false);
       setIsError(true);
+      return;
     }
 
-    setSearchLoading(false);
-  };
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const current = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
 
-  const getLatLngFromPincode = async (pincode: string) => {
-    const API_KEY = import.meta.env.VITE_OPENCAGE_API_KEY;
+          const { data: dealers, error } = await supabase
+            .from("dealers")
+            .select("*");
 
-    const res = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${pincode},India&key=${API_KEY}`
+          if (error || !dealers) throw error;
+
+          const withDistance = dealers.map((dealer: AnyDealer) => ({
+            ...dealer,
+            distance_km: calculateDistance(
+              current.lat,
+              current.lng,
+              dealer.lat,
+              dealer.lng
+            ),
+          }));
+
+          withDistance.sort(
+            (a, b) => a.distance_km! - b.distance_km!
+          );
+
+          setNearbyDealers(withDistance);
+          setLocationFound(true);
+        } catch (err) {
+          console.error(err);
+          setIsError(true);
+        }
+
+        setSearchLoading(false);
+      },
+      (error) => {
+        console.error(error);
+
+        setSearchLoading(false);
+        setIsError(true);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
     );
-
-    const data = await res.json();
-
-    if (!data || !data.results || data.results.length === 0) {return null;}
-
-    return {
-      lat: data.results[0].geometry.lat,
-      lng: data.results[0].geometry.lng,
-    };
   };
 
   const clearSearch = () => {
-    setSearchPincode(null);
-    setPincode("");
+    setLocationFound(false);
+    setNearbyDealers([]);
+    setSelectedDealer(null);
   };
 
   return (
@@ -122,47 +148,47 @@ export default function Dealers() {
               Find a Dealer
             </h1>
             <p className="text-gray-600 text-base mb-10 leading-relaxed max-w-xl mx-auto">
-                Enter your pincode to find the 3 nearest authorised Sardar Bio Organic dealers in your area.
+                Allow location access to instantly discover the nearest authorised Sardar Bio Organic dealers around you.
             </p>
           </FadeUp>
 
           <FadeUp delay={0.15}>
-            <form onSubmit={handleSearch} className="max-w-md mx-auto flex items-center relative">
-              <div className="absolute left-4 text-gray-400 pointer-events-none">
-                <Search className="w-5 h-5" />
-              </div>
-              <Input
-                type="text"
-                placeholder="Enter 6-digit Pincode"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                data-testid="input-pincode"
-                className="h-14 pl-12 pr-36 text-base rounded-2xl border border-gray-200 bg-white shadow-md focus-visible:ring-2 focus-visible:ring-[#00C62C]/30"
-                required
-              />
+            <div className="max-w-md mx-auto">
               <Button
-                type="submit"
-                disabled={pincode.length !== 6 || searchLoading}
-                data-testid="button-locate"
-                className="absolute right-1.5 top-1.5 bottom-1.5 h-auto rounded-xl text-white hover:opacity-90 uppercase tracking-widest text-xs font-bold px-6 border-0 shadow-none"
-                style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}
+                onClick={handleSearch}
+                disabled={searchLoading}
+                className="w-full h-14 rounded-2xl text-white uppercase tracking-widest text-sm font-bold"
+                style={{
+                  background:
+                    "linear-gradient(135deg,#00C62C 0%,#004d11 100%)"
+                }}
               >
-                {searchLoading ? "Searching…" : "Locate"}
+                <MapPin className="w-5 h-5 mr-2" />
+
+                {searchLoading
+                  ? "Locating..."
+                  : locationFound
+                    ? "Refresh My Location"
+                    : "Use My Current Location"}
               </Button>
-            </form>
+
+              <p className="text-xs text-gray-400 mt-4">
+                Your location is used only for this search and is never stored.
+              </p>
+            </div>
           </FadeUp>
         </div>
       </div>
 
       {/* Results */}
       <div className="max-w-7xl mx-auto px-6 py-20 w-full flex-1">
-        {!searchPincode ? (
+        {!locationFound ? (
           <FadeUp className="text-center py-24">
             <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-5">
               <MapPin className="w-8 h-8 text-[#00C62C]" />
             </div>
-            <p className="text-gray-500 text-lg">Enter your pincode above to find nearby dealers.</p>
-            <p className="text-gray-400 text-sm mt-2">The result will show you the 3 closest authorised dealers.</p>
+            <p className="text-gray-500 text-lg">Use your current location to find nearby authorised dealers.</p>
+            <p className="text-gray-400 text-sm mt-2">We'll calculate the distance from your exact location for the most accurate results.</p>
           </FadeUp>
         ) : (
           <section>
@@ -171,10 +197,10 @@ export default function Dealers() {
                 <span className="text-[10px] uppercase tracking-widest text-[#00C62C] font-semibold">Search Results</span>
                 <h2 className="text-2xl font-serif font-bold text-gray-900 mt-1">
                   {searchLoading
-                    ? "Searching…"
+                    ? "Locating..."
                     : isError
-                    ? "Search Error"
-                    : `Nearest dealers to ${searchPincode}`}
+                    ? "Location Error"
+                    : `Nearest Dealers`}
                 </h2>
               </div>
               <button
@@ -193,7 +219,7 @@ export default function Dealers() {
               </div>
             ) : isError ? (
               <div className="text-center py-12 bg-red-50 rounded-2xl border border-red-100 text-red-500">
-                Unable to find dealers for this pincode. Please try another.
+                Unable to determine your location. Please allow location access and try again.
               </div>
             ) : top3.length > 0 ? (
               <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -206,8 +232,8 @@ export default function Dealers() {
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-100">
                 <MapPin className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                <p className="text-gray-500 font-medium">No dealers found near <strong>{searchPincode}</strong>.</p>
-                <p className="text-sm text-gray-400 mt-1">Try a nearby pincode or contact us directly.</p>
+                <p className="text-gray-500 font-medium">No nearby dealers found.</p>
+                <p className="text-sm text-gray-400 mt-1">Please try again after enabling location access or contact us directly.</p>
                 <a
                   href="/contact"
                   className="inline-block mt-6 text-sm font-semibold text-[#00C62C] hover:underline"
@@ -271,9 +297,9 @@ export default function Dealers() {
                   )}
 
                   {selectedDealer.distance_km !== undefined && (
-                    <div className="inline-flex items-center gap-2 bg-green-50 border border-green-100 px-3 py-2 rounded-xl text-xs font-semibold text-[#00C62C]">
+                    <div className="inline-flex items-center gap-2 bg-green-50 border border-green-100 px-3 py-2 rounded-full text-xs font-semibold text-[#00C62C]">
                       <MapPin className="w-3.5 h-3.5" />
-                      {(selectedDealer.distance_km as number).toFixed(1)} km from your pincode
+                      ≈{(selectedDealer.distance_km as number).toFixed(1)} km from your location.
                     </div>
                   )}
                 </div>
@@ -312,7 +338,7 @@ function DealerCard({ dealer, onClick }: { dealer: AnyDealer; onClick: () => voi
         </h3>
         {dealer.distance_km !== undefined && (
           <span className="text-white text-[10px] px-2.5 py-1 font-bold ml-3 shrink-0 rounded-full" style={{ background: "linear-gradient(135deg, #00C62C 0%, #004d11 100%)" }}>
-            {dealer.distance_km.toFixed(1)} km
+            ≈{dealer.distance_km.toFixed(1)} km
           </span>
         )}
       </div>
