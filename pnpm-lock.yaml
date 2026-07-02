@@ -151,6 +151,12 @@ importers:
       '@fontsource/cormorant-garamond':
         specifier: ^5.2.11
         version: 5.2.11
+      '@fontsource/league-spartan':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/libertinus-serif':
+        specifier: ^5.2.1
+        version: 5.2.1
       '@fontsource/plus-jakarta-sans':
         specifier: ^5.2.8
         version: 5.2.8
@@ -798,6 +804,12 @@ packages:
 
   '@fontsource/cormorant-garamond@5.2.11':
     resolution: {integrity: sha512-5JjpN023lhA5soijgVT0BdRGzmlijm402ppjccMd6h+vRE0mX2lJnE+41UPfnlidrkV9/rCo1mf58WZlHnB0CA==}
+
+  '@fontsource/league-spartan@5.2.8':
+    resolution: {integrity: sha512-83zacDd4BcvLwQ5JLjMg9s81MybTGKLsQJTihXSy4iQZEhMOofIvfhpe6udE7xk4l29NaQCK59DAzv1HfdIbLw==}
+
+  '@fontsource/libertinus-serif@5.2.1':
+    resolution: {integrity: sha512-NguzrKW1PJjePz8o+DMGFoMfoCEB57pE4szdqTxajcOwqG4Rzonv4iFu3/5luEg3ZAsvek8azonpw1PkYQDwoQ==}
 
   '@fontsource/plus-jakarta-sans@5.2.8':
     resolution: {integrity: sha512-P5qE49fqdeD+7DXH1KBxmMPlB17LTz1zvBhFH0tFzfnYTKVJVyb0pR6plh0ZGXxcB+Oayb54FZZw3V42/DawTw==}
@@ -3343,6 +3355,10 @@ snapshots:
   '@floating-ui/utils@0.2.11': {}
 
   '@fontsource/cormorant-garamond@5.2.11': {}
+
+  '@fontsource/league-spartan@5.2.8': {}
+
+  '@fontsource/libertinus-serif@5.2.1': {}
 
   '@fontsource/plus-jakarta-sans@5.2.8': {}
 
