@@ -83,8 +83,8 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
-  --app-font-serif: 'Lora', serif;
+  --app-font-sans: 'League Spartan', sans-serif;
+  --app-font-serif: 'Libertinus Serif', serif;
   --app-font-mono: Menlo, monospace;
 
   --radius: 0.75rem;
