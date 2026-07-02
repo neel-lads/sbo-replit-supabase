@@ -1,5 +1,5 @@
-@import "@fontsource/plus-jakarta-sans";
-@import "@fontsource/cormorant-garamond";
+@import "@fontsource/libertinus-serif";
+@import "@fontsource/league-spartan";
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
