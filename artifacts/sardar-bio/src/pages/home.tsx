@@ -158,8 +158,8 @@ export default function Home() {
           <div className="grid grid-cols-3 divide-x divide-white/20">
             {[
               { value: "20+", label: "Years of Experience" },
-              { value: "500+", label: "Dealers & Distributors" },
-              { value: "3", label: "Product Categories" },
+              { value: "150+", label: "Dealers & Distributors" },
+              { value: "25+", label: "Products" },
             ].map((stat) => (
               <div key={stat.label} className="text-center px-4 py-2">
                 <div className="text-2xl md:text-3xl font-serif font-bold text-white">{stat.value}</div>

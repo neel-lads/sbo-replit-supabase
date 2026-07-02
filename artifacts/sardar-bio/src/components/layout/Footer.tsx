@@ -37,7 +37,6 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 mt-14 pt-8 border-t border-black/10 text-sm text-gray-400 flex flex-col md:flex-row justify-between items-center gap-4">
         <p>&copy; {new Date().getFullYear()} Sardar Bio Organic. All rights reserved.</p>
-        <Link href="/admin" className="hover:text-gray-700 transition-colors">Admin Portal</Link>
       </div>
     </footer>
   );

@@ -1,3 +1,5 @@
+@import "@fontsource/plus-jakarta-sans";
+@import "@fontsource/cormorant-garamond";
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -81,8 +83,8 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
+  --app-font-serif: 'Cormorant Garamond', serif;
   --app-font-mono: Menlo, monospace;
 
   --radius: 0.75rem;
