@@ -10,15 +10,6 @@ import { supabase } from "@/lib/supabase";
 
 import { Helmet } from "react-helmet-async";
 
-<Helmet>
-  <title>Sardar Bio Organic | Organic Agricultural Solutions Since 2004</title>
-
-  <meta
-    name="description"
-    content="Sardar Bio Organic has been delivering trusted organic agricultural solutions since 2004. Explore bio fertilizers, bio pesticides, bio fungicides, and sustainable farming products for healthier crops and improved soil fertility."
-  />
-</Helmet>
-
 type product = {
   id: number;
   name: string;
@@ -83,6 +74,15 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+      <Helmet>
+        <title>Sardar Bio Organic | Organic Agricultural Solutions Since 2004</title>
+
+        <meta
+          name="description"
+          content="Sardar Bio Organic has been delivering trusted organic agricultural solutions since 2004. Explore bio fertilizers, bio pesticides, bio fungicides, and sustainable farming products for healthier crops and improved soil fertility."
+        />
+      </Helmet>
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
@@ -504,5 +504,6 @@ export default function Home() {
 
       <Footer />
     </div>
+    </>
   );
 }
