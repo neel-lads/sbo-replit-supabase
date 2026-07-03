@@ -1,33 +1,30 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo",
-    "noEmit": true,
-
     "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
     "jsx": "react-jsx",
-
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
     "strict": true,
     "skipLibCheck": true,
 
-    "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
-
-    "types": ["node", "vite/client"],
+    "ignoreDeprecations": "6.0",
 
     "baseUrl": ".",
 
+    "types": ["vite/client"],
+
     "paths": {
-      "@/*": ["src/*"],
-      "@workspace/db": ["lib/db/src"],
-      "@workspace/api-zod": ["lib/api-zod/src"]
+      "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
