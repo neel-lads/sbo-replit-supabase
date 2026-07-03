@@ -28,7 +28,7 @@ export default function Products() {
 
     if (path.startsWith("http")) return path;
 
-    return `https://pfdwgxzhdqtvedwiovtn.supabase.co/storage/v1/object/public/product-images/${path}`;
+    return `https://pelqbtytbnxriifwyjfu.supabase.co/storage/v1/object/public/product-images/${path}`;
   };
   useEffect(() => {
     const fetchProducts = async () => {
