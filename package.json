@@ -20,6 +20,7 @@
     "@fontsource/plus-jakarta-sans": "^5.2.8",
     "drizzle-orm": "0.29.5",
     "drizzle-zod": "0.5.1",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "react-helmet-async": "^3.0.0"
   }
 }

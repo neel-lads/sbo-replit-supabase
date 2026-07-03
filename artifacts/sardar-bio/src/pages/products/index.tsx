@@ -5,6 +5,17 @@ import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/animate";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+import { Helmet } from "react-helmet-async";
+
+<Helmet>
+  <title>Organic Agriculture Products | Sardar Bio Organic</title>
+
+  <meta
+    name="description"
+    content="Browse Sardar Bio Organic's complete range of bio fertilizers, bio pesticides, bio fungicides, neem-based solutions, soil enhancers, and crop nutrition products for sustainable agriculture."
+  />
+</Helmet>
+
 export default function Products() {
   const [categories, setCategories] = useState<string[]>([]);
   const [forms, setForms] = useState<string[]>([]);

@@ -5,6 +5,151 @@ import { Footer } from "@/components/layout/Footer";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+import { Helmet } from "react-helmet-async";
+
+const seoMap: Record<string, { title: string; description: string }> = {
+  "58 Commando": {
+    title: "58 Commando | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Discover 58 Commando by Sardar Bio Organic, a trusted organic agricultural solution developed to improve crop performance, soil health, and sustainable farming productivity."
+  },
+
+  "Arunoday": {
+    title: "Arunoday | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Explore Arunoday by Sardar Bio Organic, formulated to support healthier crops, improved nutrient availability, and sustainable agricultural practices."
+  },
+
+  "Combi Pack": {
+    title: "Combi Pack | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Combi Pack from Sardar Bio Organic provides an effective combination of organic agricultural solutions to improve crop growth and overall soil productivity."
+  },
+
+  "Guru": {
+    title: "Guru | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Guru by Sardar Bio Organic helps farmers enhance crop health and maintain sustainable agricultural productivity with trusted organic technology."
+  },
+
+  "Ketu": {
+    title: "Ketu | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Ketu is a premium organic agricultural solution from Sardar Bio Organic designed to promote healthier crops and long-term soil vitality."
+  },
+
+  "Live": {
+    title: "Live | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Live by Sardar Bio Organic supports sustainable farming through improved plant growth, nutrient efficiency, and healthier crop development."
+  },
+
+  "Maahir": {
+    title: "Maahir | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Maahir is an advanced organic farming solution from Sardar Bio Organic developed to improve crop performance and agricultural productivity."
+  },
+
+  "Neemguru (10000 PPM)": {
+    title: "Neemguru 10000 PPM | Neem-Based Bio Pesticide | Sardar Bio Organic",
+    description: "Neemguru 10000 PPM is a premium neem-based bio pesticide from Sardar Bio Organic that helps protect crops while supporting eco-friendly farming."
+  },
+
+  "Neemguru (1500 PPM)": {
+    title: "Neemguru 1500 PPM | Neem-Based Bio Pesticide | Sardar Bio Organic",
+    description: "Neemguru 1500 PPM offers reliable neem-based crop protection for sustainable agriculture and healthier plant growth."
+  },
+
+  "Palak": {
+    title: "Palak | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Palak by Sardar Bio Organic is designed to enhance crop vigor, soil fertility, and sustainable farming performance."
+  },
+
+  "Pasand": {
+    title: "Pasand | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Pasand supports healthy crop development and improved agricultural productivity through organic farming practices."
+  },
+
+  "Pasand (Liquid)": {
+    title: "Pasand Liquid | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Pasand Liquid is an easy-to-apply organic agricultural solution developed for healthier crops and efficient nutrient utilization."
+  },
+
+  "Prakruti Azoto": {
+    title: "Prakruti Azoto | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Azoto is a bio fertilizer that enhances nitrogen availability, improves soil fertility, and supports sustainable crop production."
+  },
+
+  "Prakruti Bio NPK (Liquid)": {
+    title: "Prakruti Bio NPK Liquid | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Bio NPK Liquid supplies essential nutrients naturally, promoting vigorous crop growth and healthier soil ecosystems."
+  },
+
+  "Prakruti Bio-NPK": {
+    title: "Prakruti Bio-NPK | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Bio-NPK is an organic bio fertilizer that improves nutrient uptake, soil health, and crop productivity."
+  },
+
+  "Prakruti Mycorrhiza (1200 IP)": {
+    title: "Prakruti Mycorrhiza 1200 IP | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Mycorrhiza 1200 IP enhances root development, nutrient absorption, and plant resilience for sustainable agriculture."
+  },
+
+  "Prakruti Mycorrhiza (300000 IP)": {
+    title: "Prakruti Mycorrhiza 300000 IP | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Mycorrhiza 300000 IP delivers high-potency mycorrhizal support for stronger roots, improved nutrient uptake, and healthier crops."
+  },
+
+  "Prakruti Phospho": {
+    title: "Prakruti Phospho | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Phospho increases phosphorus availability naturally, encouraging stronger root systems and improved crop growth."
+  },
+
+  "Prakruti Potash": {
+    title: "Prakruti Potash | Bio Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Potash helps improve potassium availability, crop quality, stress tolerance, and overall agricultural productivity."
+  },
+
+  "Prakruti PROM": {
+    title: "Prakruti PROM | Organic Phosphate Rich Manure | Sardar Bio Organic",
+    description: "Prakruti PROM is an organic phosphate rich manure that improves soil fertility, phosphorus availability, and sustainable crop nutrition."
+  },
+
+  "Prakruti Zinc": {
+    title: "Prakruti Zinc | Organic Zinc Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Zinc helps correct zinc deficiency, supports healthy plant growth, and improves crop yield through balanced nutrition."
+  },
+
+  "Prakruti Zinc (Liquid)": {
+    title: "Prakruti Zinc Liquid | Organic Zinc Fertilizer | Sardar Bio Organic",
+    description: "Prakruti Zinc Liquid provides efficient zinc nutrition for stronger crops, healthier foliage, and better agricultural productivity."
+  },
+
+  "Trichoguru": {
+    title: "Trichoguru | Bio Fungicide | Sardar Bio Organic",
+    description: "Trichoguru is a bio fungicide that supports natural disease management, healthier roots, and sustainable crop protection."
+  },
+
+  "Trichoguru (Liquid)": {
+    title: "Trichoguru Liquid | Bio Fungicide | Sardar Bio Organic",
+    description: "Trichoguru Liquid offers convenient biological disease protection while promoting healthier crops and sustainable farming."
+  },
+
+  "Vian": {
+    title: "Vian | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Vian is an advanced organic agricultural solution designed to support healthy plant growth, improved crop performance, and sustainable farming."
+  },
+
+  "VM": {
+    title: "VM | Organic Agriculture Product | Sardar Bio Organic",
+    description: "VM by Sardar Bio Organic combines advanced organic technologies to improve crop health, nutrient efficiency, and overall farm productivity."
+  },
+
+  "Winner": {
+    title: "Winner | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Winner is a trusted organic agricultural product that supports healthy crops, sustainable farming, and improved agricultural performance."
+  },
+
+  "Winner (Liquid)": {
+    title: "Winner Liquid | Organic Agriculture Product | Sardar Bio Organic",
+    description: "Winner Liquid delivers reliable organic crop support through an easy-to-apply formulation that promotes healthy plant growth and productivity."
+  }
+};
+
+
 export default function ProductDetail() {
   const params = useParams();
   const productId = parseInt(params.id || "0", 10);
@@ -64,8 +209,25 @@ export default function ProductDetail() {
     </div>
   );
 
+  const seo = seoMap[product.name] ?? {
+    title: `${product.name} | Sardar Bio Organic`,
+    description:
+      product.description ||
+      `${product.name} by Sardar Bio Organic.`,
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <Helmet>
+        <title>{seo.title}</title>
+
+        <meta
+          name="description"
+          content={seo.description}
+        />
+      </Helmet>
+
+      <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
       {/* Back + Breadcrumb */}
@@ -177,5 +339,6 @@ export default function ProductDetail() {
 
       <Footer />
     </div>
+  </>
   );
 }

@@ -13,6 +13,17 @@ import {
 import { MapPin, Phone, Mail, ExternalLink, Building2, X } from "lucide-react";
 import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/animate";
 
+import { Helmet } from "react-helmet-async";
+
+<Helmet>
+  <title>Find Dealers & Distributors | Sardar Bio Organic</title>
+
+  <meta
+    name="description"
+    content="Locate authorized Sardar Bio Organic dealers and distributors near you. Connect with trusted partners for premium organic agricultural products across Gujarat and beyond."
+  />
+</Helmet>
+
 type AnyDealer = {
   id: number;
   firm_name: string;

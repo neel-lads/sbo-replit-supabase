@@ -7,6 +7,16 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
+import { Helmet } from "react-helmet-async";
+
+<Helmet>
+  <title>Contact Sardar Bio Organic | Get in Touch</title>
+
+  <meta
+    name="description"
+    content="Contact Sardar Bio Organic for product inquiries, dealership opportunities, customer support, or business partnerships. We're here to support sustainable farming."
+  />
+</Helmet>
 
 export default function Contact() {
   const [activeTab, setActiveTab] = useState<"contact" | "dealership">("contact");
