@@ -205,8 +205,8 @@ export default function Home() {
 
             <StaggerContainer className="flex flex-col gap-4">
               {[
-                { name: "Amitbhai Ladani", role: "Co-Founder", image: "/founders/amitbhai.JPG" },
-                { name: "Hasubhai Patel", role: "Co-Founder", image: "/founders/hasubhai.JPG" },
+                { name: "Amitbhai Ladani", role: "Co-Founder", image: "/founders/amitbhai.webp" },
+                { name: "Hasubhai Patel", role: "Co-Founder", image: "/founders/hasubhai.webp" },
               ].map((founder) => (
                 <StaggerItem key={founder.name}>
                   <div className="border border-gray-100 rounded-2xl p-6 flex items-center gap-5 hover:border-[#00C62C]/30 hover:bg-green-50/50 hover:shadow-sm transition-all duration-300">
