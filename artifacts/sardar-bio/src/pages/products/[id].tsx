@@ -172,7 +172,7 @@ export default function ProductDetail() {
       if (error) {
         setIsError(true);
       } else {
-        setProduct(data);
+        setProduct(data); console.log(data);
       }
 
       setIsLoading(false);
