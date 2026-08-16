@@ -9,37 +9,37 @@ import { Helmet } from "react-helmet-async";
 
 const seoMap: Record<string, { title: string; description: string }> = {
   "58 Commando": {
-    title: "58 Commando | Organic Agriculture Product | Sardar Bio Organic",
+    title: "58 Commando | Bio Fertilizer | Sardar Bio Organic",
     description: "Discover 58 Commando by Sardar Bio Organic, a trusted organic agricultural solution developed to improve crop performance, soil health, and sustainable farming productivity."
   },
 
   "Arunoday": {
-    title: "Arunoday | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Arunoday | Bio Fertilizer | Sardar Bio Organic",
     description: "Explore Arunoday by Sardar Bio Organic, formulated to support healthier crops, improved nutrient availability, and sustainable agricultural practices."
   },
 
   "Combi Pack": {
-    title: "Combi Pack | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Combi Pack | Bio Fungicide | Sardar Bio Organic",
     description: "Combi Pack from Sardar Bio Organic provides an effective combination of organic agricultural solutions to improve crop growth and overall soil productivity."
   },
 
   "Guru": {
-    title: "Guru | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Guru | Bio Stimulant | Sardar Bio Organic",
     description: "Guru by Sardar Bio Organic helps farmers enhance crop health and maintain sustainable agricultural productivity with trusted organic technology."
   },
 
   "Ketu": {
-    title: "Ketu | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Ketu | Bio Insecticide | Sardar Bio Organic",
     description: "Ketu is a premium organic agricultural solution from Sardar Bio Organic designed to promote healthier crops and long-term soil vitality."
   },
 
   "Live": {
-    title: "Live | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Live | Bio Insecticide | Sardar Bio Organic",
     description: "Live by Sardar Bio Organic supports sustainable farming through improved plant growth, nutrient efficiency, and healthier crop development."
   },
 
   "Maahir": {
-    title: "Maahir | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Maahir | Bio Stimulant | Sardar Bio Organic",
     description: "Maahir is an advanced organic farming solution from Sardar Bio Organic developed to improve crop performance and agricultural productivity."
   },
 
@@ -54,17 +54,17 @@ const seoMap: Record<string, { title: string; description: string }> = {
   },
 
   "Palak": {
-    title: "Palak | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Palak | Bio Insecticide | Sardar Bio Organic",
     description: "Palak by Sardar Bio Organic is designed to enhance crop vigor, soil fertility, and sustainable farming performance."
   },
 
   "Pasand": {
-    title: "Pasand | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Pasand | Bio Insecticide | Sardar Bio Organic",
     description: "Pasand supports healthy crop development and improved agricultural productivity through organic farming practices."
   },
 
   "Pasand (Liquid)": {
-    title: "Pasand Liquid | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Pasand Liquid | Bio Pesticide | Sardar Bio Organic",
     description: "Pasand Liquid is an easy-to-apply organic agricultural solution developed for healthier crops and efficient nutrient utilization."
   },
 
@@ -104,17 +104,17 @@ const seoMap: Record<string, { title: string; description: string }> = {
   },
 
   "Prakruti PROM": {
-    title: "Prakruti PROM | Organic Phosphate Rich Manure | Sardar Bio Organic",
+    title: "Prakruti PROM | Bio Fertilizer | Sardar Bio Organic",
     description: "Prakruti PROM is an organic phosphate rich manure that improves soil fertility, phosphorus availability, and sustainable crop nutrition."
   },
 
   "Prakruti Zinc": {
-    title: "Prakruti Zinc | Organic Zinc Fertilizer | Sardar Bio Organic",
+    title: "Prakruti Zinc | Bio Fertilizer | Sardar Bio Organic",
     description: "Prakruti Zinc helps correct zinc deficiency, supports healthy plant growth, and improves crop yield through balanced nutrition."
   },
 
   "Prakruti Zinc (Liquid)": {
-    title: "Prakruti Zinc Liquid | Organic Zinc Fertilizer | Sardar Bio Organic",
+    title: "Prakruti Zinc Liquid | Bio Fertilizer | Sardar Bio Organic",
     description: "Prakruti Zinc Liquid provides efficient zinc nutrition for stronger crops, healthier foliage, and better agricultural productivity."
   },
 
@@ -124,27 +124,27 @@ const seoMap: Record<string, { title: string; description: string }> = {
   },
 
   "Trichoguru (Liquid)": {
-    title: "Trichoguru Liquid | Bio Fungicide | Sardar Bio Organic",
+    title: "Trichoguru Liquid | Bio Pesticide | Sardar Bio Organic",
     description: "Trichoguru Liquid offers convenient biological disease protection while promoting healthier crops and sustainable farming."
   },
 
   "Vian": {
-    title: "Vian | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Vian | Bio Pesticide | Sardar Bio Organic",
     description: "Vian is an advanced organic agricultural solution designed to support healthy plant growth, improved crop performance, and sustainable farming."
   },
 
   "VM": {
-    title: "VM | Organic Agriculture Product | Sardar Bio Organic",
+    title: "VM | Bio Pesticide | Sardar Bio Organic",
     description: "VM by Sardar Bio Organic combines advanced organic technologies to improve crop health, nutrient efficiency, and overall farm productivity."
   },
 
   "Winner": {
-    title: "Winner | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Winner | Bio Fungicide | Sardar Bio Organic",
     description: "Winner is a trusted organic agricultural product that supports healthy crops, sustainable farming, and improved agricultural performance."
   },
 
   "Winner (Liquid)": {
-    title: "Winner Liquid | Organic Agriculture Product | Sardar Bio Organic",
+    title: "Winner Liquid | Bio Pesticide | Sardar Bio Organic",
     description: "Winner Liquid delivers reliable organic crop support through an easy-to-apply formulation that promotes healthy plant growth and productivity."
   }
 };

@@ -7,7 +7,7 @@ import { FadeUp, FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/compon
 import { motion } from "framer-motion";
 import heroFarm from "@/assets/hero-farm.png";
 import { supabase } from "@/lib/supabase";
-
+import SEO from "@/components/SEO";
 import { Helmet } from "react-helmet-async";
 
 type product = {
@@ -75,6 +75,29 @@ export default function Home() {
 
   return (
     <>
+      <SEO
+        title="Sardar Bio Organic | Bio Pesticides, Bio Fertilizers & Agricultural Inputs"
+        description="Sardar Bio Organic is a Rajkot, Gujarat based agricultural input wholesaler and stockist offering bio pesticides, bio fertilizers, fungicides, insecticides and sustainable crop solutions since 2004."
+        canonical="https://www.sardarbioorganic.com/"
+      />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "@id": "https://www.sardarbioorganic.com/#organization",
+          name: "Sardar Bio Organic",
+          url: "https://www.sardarbioorganic.com/",
+          logo: "https://www.sardarbioorganic.com/assets/SARADAR%20BIO%20LOGO-B3v3lUvW.svg",
+          telephone: "+91-9825735427",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Rajkot",
+            addressRegion: "Gujarat",
+            postalCode: "360003",
+            addressCountry: "IN"
+          }
+        })}
+      </script>
       <Helmet>
         <title>Sardar Bio Organic | Organic Agricultural Solutions Since 2004</title>
 
@@ -169,7 +192,7 @@ export default function Home() {
           <div className="grid grid-cols-3 divide-x divide-white/20">
             {[
               { value: "20+", label: "Years of Experience" },
-              { value: "150+", label: "Dealers & Distributors" },
+              { value: "180+", label: "Dealers & Distributors" },
               { value: "25+", label: "Products" },
             ].map((stat) => (
               <div key={stat.label} className="text-center px-4 py-2">
