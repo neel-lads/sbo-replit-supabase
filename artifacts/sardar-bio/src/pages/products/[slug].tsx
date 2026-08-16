@@ -7,10 +7,6 @@ import { supabase } from "@/lib/supabase";
 import { slugify } from "@/lib/slugify";
 import { Helmet } from "react-helmet-async";
 
-const [, navigate] = useLocation();
-const params = useParams();
-const productSlug = params.slug || "";
-
 const seoMap: Record<string, { title: string; description: string }> = {
   "58 Commando": {
     title: "58 Commando | Organic Agriculture Product | Sardar Bio Organic",
@@ -155,6 +151,7 @@ const seoMap: Record<string, { title: string; description: string }> = {
 
 
 export default function ProductDetail() {
+  const [, navigate] = useLocation();
   const params = useParams();
   const productSlug = params.slug || "";
   const [activeImage, setActiveImage] = useState(0);
