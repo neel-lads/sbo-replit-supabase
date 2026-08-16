@@ -1,11 +1,15 @@
-import { useParams, Link } from "wouter";
+import { useParams, Link, useLocation } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-
+import { slugify } from "@/lib/slugify";
 import { Helmet } from "react-helmet-async";
+
+const [, navigate] = useLocation();
+const params = useParams();
+const productSlug = params.slug || "";
 
 const seoMap: Record<string, { title: string; description: string }> = {
   "58 Commando": {
@@ -152,7 +156,7 @@ const seoMap: Record<string, { title: string; description: string }> = {
 
 export default function ProductDetail() {
   const params = useParams();
-  const productId = parseInt(params.id || "0", 10);
+  const productSlug = params.slug || "";
   const [activeImage, setActiveImage] = useState(0);
   const [product, setProduct] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -165,23 +169,54 @@ export default function ProductDetail() {
 
       const { data, error } = await supabase
         .from("products")
-        .select("*")
-        .eq("id", productId)
-        .single();
+        .select("*");
 
-      if (error) {
+      if (error || !data) {
+        setIsError(true);
+        setIsLoading(false);
+        return;
+      }
+
+      // Support old numeric URLs
+      const numericId = Number(productSlug);
+
+      let matchedProduct;
+
+      if (!Number.isNaN(numericId) && numericId > 0) {
+        matchedProduct = data.find(
+          (item) => Number(item.id) === numericId
+        );
+
+        // Redirect old numeric URL to SEO-friendly slug
+        if (matchedProduct) {
+          const newSlug = slugify(matchedProduct.name);
+
+          navigate(`/products/${newSlug}`, {
+            replace: true,
+          });
+
+          return;
+        }
+      }
+
+      // Normal SEO-friendly URL
+      matchedProduct = data.find(
+        (item) => slugify(item.name) === productSlug
+      );
+
+      if (!matchedProduct) {
         setIsError(true);
       } else {
-        setProduct(data); console.log(data);
+        setProduct(matchedProduct);
       }
 
       setIsLoading(false);
     };
 
-    if (productId > 0) {
+    if (productSlug) {
       fetchProduct();
     }
-  }, [productId]);
+  }, [productSlug, navigate]);
 
   if (isLoading) return (
     <div className="min-h-screen flex flex-col bg-white">

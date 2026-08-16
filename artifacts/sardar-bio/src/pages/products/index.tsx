@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/animate";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-
+import { slugify } from "@/lib/slugify";
 import { Helmet } from "react-helmet-async";
 
 <Helmet>
@@ -142,7 +142,7 @@ export default function Products() {
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products?.map((product) => (
               <StaggerItem key={product.id}>
-                <Link href={`/products/${product.id}`} className="group block h-full" data-testid={`card-product-${product.id}`}>
+                <Link href={`/products/${slugify(product.name)}`} className="group block h-full" data-testid={`card-product-${product.id}`}>
                   <div className="bg-white h-full rounded-2xl border border-gray-100 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-black/8 transition-all duration-300 overflow-hidden flex flex-col">
                     <div className="bg-gray-50 h-64 flex items-center justify-center overflow-hidden relative rounded-t-2xl">
                       {product.image_url ? (

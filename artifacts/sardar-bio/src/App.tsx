@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import Home from "@/pages/home";
 import Products from "@/pages/products";
-import ProductDetail from "@/pages/products/[id]";
+import ProductDetail from "@/pages/products/[slug]";
 import Dealers from "@/pages/dealers";
 import Contact from "@/pages/contact";
 // Import placeholder for admin pages to build next
@@ -18,7 +18,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
-      <Route path="/products/:id" component={ProductDetail} />
+      <Route path="/products/:slug" component={ProductDetail} />
       <Route path="/dealers" component={Dealers} />
       <Route path="/contact" component={Contact} />
       
